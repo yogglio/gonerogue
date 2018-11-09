@@ -10,7 +10,7 @@
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue';
 import SnazzyInfoWindow from 'snazzy-info-window'
-import {roguestyle, cyberstyle} from '@/style.js';
+import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 
 export default {
   name: 'home',
@@ -23,7 +23,7 @@ export default {
         const options = {
             zoom: 14,
             center: new google.maps.LatLng(47.071467, 8.277621),
-            styles: cyberstyle
+            styles: redstyle
         }
         this.map = new google.maps.Map(element, options);
 
