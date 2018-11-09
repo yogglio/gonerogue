@@ -9,6 +9,7 @@
 </template>
 
 <style lang="scss">
+  @import '../node_modules/snazzy-info-window/dist/snazzy-info-window.scss';
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

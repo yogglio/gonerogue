@@ -23,11 +23,11 @@ export default {
         const options = {
             zoom: 14,
             center: new google.maps.LatLng(47.071467, 8.277621),
-            styles: redstyle
+            styles: roguestyle
         }
         this.map = new google.maps.Map(element, options);
 
-        const locations = [
+/*        const locations = [
             {lat: 47.071978, lng: 8.262165 },
             {lat: 47.072978, lng: 8.292165 },
             {lat: 47.073978, lng: 8.292165 },
@@ -39,7 +39,7 @@ export default {
                 position: {lat: loc.lat, lng: loc.lng},
                 map: this.map
             }));
-        });
+        });*/
     }
 }
 </script>
