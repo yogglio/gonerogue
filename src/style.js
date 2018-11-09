@@ -212,7 +212,7 @@ let cyberstyle = [
       ]
     }
   ];
-let styleRogue = [
+let roguestyle = [
     {
         "elementType": "geometry",
         "stylers": [
@@ -417,5 +417,4 @@ let styleRogue = [
     }
 ];
 
-export default styleRogue;
-export default cyberstyle;
+export {roguestyle, cyberstyle};
