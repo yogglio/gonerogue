@@ -8,7 +8,8 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
+import HelloWorld from '@/components/HelloWorld.vue';
+import styleRogue from '@/style.js';
 
 export default {
   name: 'home',
@@ -17,216 +18,27 @@ export default {
   },
     mounted: function(){
         const element = document.getElementById("map");
-        const styleRogue = [
-            {
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#212121"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.icon",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#212121"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#5e5e5e"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.country",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#9e9e9e"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.land_parcel",
-                "stylers": [
-                    {
-                        "visibility": "off"
-                    }
-                ]
-            },
-            {
-                "featureType": "administrative.locality",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#bdbdbd"
-                    }
-                ]
-            },
-            {
-                "featureType": "landscape",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#000000"
-                    }
-                ]
-            },
-            {
-                "featureType": "landscape",
-                "elementType": "labels",
-                "stylers": [
-                    {
-                        "color": "#feffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#757575"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#424242"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#616161"
-                    }
-                ]
-            },
-            {
-                "featureType": "poi.park",
-                "elementType": "labels.text.stroke",
-                "stylers": [
-                    {
-                        "color": "#1b1b1b"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "geometry.fill",
-                "stylers": [
-                    {
-                        "color": "#941100"
-                    }
-                ]
-            },
-            {
-                "featureType": "road",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#8a8a8a"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.arterial",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#941100"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#941100"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.highway.controlled_access",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#4e4e4e"
-                    }
-                ]
-            },
-            {
-                "featureType": "road.local",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#feffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "transit",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#feffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "geometry",
-                "stylers": [
-                    {
-                        "color": "#feffff"
-                    }
-                ]
-            },
-            {
-                "featureType": "water",
-                "elementType": "labels.text.fill",
-                "stylers": [
-                    {
-                        "color": "#3d3d3d"
-                    }
-                ]
-            }
-        ];
+
         const options = {
             zoom: 14,
             center: new google.maps.LatLng(47.071467, 8.277621),
             styles: styleRogue
         }
         this.map = new google.maps.Map(element, options);
+
+        const locations = [
+            {lat: 47.071978, lng: 8.262165 },
+            {lat: 47.072978, lng: 8.292165 },
+            {lat: 47.073978, lng: 8.292165 },
+            {lat: 47.074978, lng: 8.282165 }
+        ];
+        let markers = [];
+        locations.map(loc => {
+            markers.push(new google.maps.Marker({
+                position: {lat: loc.lat, lng: loc.lng},
+                map: this.map
+            }));
+        });
     }
 }
 </script>
