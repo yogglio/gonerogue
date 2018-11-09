@@ -12,6 +12,8 @@
   "dependencies": {
     "contentful": "^7.0.5",
     "express": "^4.16.4",
+    "save": "^2.3.2",
+    "snazzy-info-window": "^1.1.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1"
   },
