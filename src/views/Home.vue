@@ -69,11 +69,21 @@ export default {
               this.places = entries.items;
               console.log(entries.items)
           }).then(()=>{
-              this.places.map(loc => {
-                  markers.push(new google.maps.Marker({
-                      position: {lat: loc.fields.location.lat, lng: loc.fields.location.lon},
+              this.places.map(place => {
+                  let marker = new google.maps.Marker({
+                      position: {lat: place.fields.location.lat, lng: place.fields.location.lon},
                       map: this.map
-                  }))
+
+                  });
+                  new SnazzyInfoWindow({
+                      marker: marker,
+                      content:'<h1>'+place.fields.name+'</h1>'+
+                              '<p>'+place.fields.description+'</p>'+
+                              '<p>Time spent: '+place.fields.time+'</p>'+
+                              '<p>Rating: '+place.fields.rating+'</p>'
+
+                  });
+                  markers.push(marker)
               });
 
               console.log(markers)
