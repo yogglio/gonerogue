@@ -1,7 +1,14 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
+    <ul v-for="place in places">
+      <li>{{place.fields.name}}</li>
+      <li>{{place.fields.description}}</li>
+      <li>{{place.fields.location}}</li>
+      <li>Time spent: {{place.fields.time}}</li>
+      <li>Rating: {{place.fields.rating}}</li>
+    </ul>
     <div id="map"></div>
   </div>
 </template>
@@ -17,29 +24,76 @@ export default {
   components: {
     HelloWorld
   },
-    mounted: function(){
-        const element = document.getElementById("map");
+  data() {
+      return {
+          places: []
+      }
+  },
+  methods:{
+      init(){
 
-        const options = {
-            zoom: 14,
-            center: new google.maps.LatLng(47.071467, 8.277621),
-            styles: roguestyle
-        }
-        this.map = new google.maps.Map(element, options);
+          const element = document.getElementById("map");
 
-/*        const locations = [
-            {lat: 47.071978, lng: 8.262165 },
-            {lat: 47.072978, lng: 8.292165 },
-            {lat: 47.073978, lng: 8.292165 },
-            {lat: 47.074978, lng: 8.282165 }
-        ];
-        let markers = [];
-        locations.map(loc => {
-            markers.push(new google.maps.Marker({
-                position: {lat: loc.lat, lng: loc.lng},
-                map: this.map
-            }));
-        });*/
+          const options = {
+              zoom: 14,
+              //center: new google.maps.LatLng(47.071467, 8.277621),
+              styles: roguestyle
+          };
+          this.map = new google.maps.Map(element, options);
+
+          let infoWindow = new google.maps.InfoWindow;
+
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition((position) => {
+                  let pos = {
+                      lat: position.coords.latitude,
+                      lng: position.coords.longitude
+                  };
+
+                  infoWindow.setPosition(pos);
+                  infoWindow.setContent('Location found.');
+                  infoWindow.open(this.map);
+                  this.map.setCenter(pos);
+              }, function() {
+                  this.handleLocationError(true, infoWindow, map.getCenter());
+              });
+          } else {
+              // Browser doesn't support Geolocation
+              this.handleLocationError(false, infoWindow, this.map.getCenter());
+          }
+
+          let markers = [];
+          window.contentfulClient.getEntries({
+              'content_type': 'place'
+          }).then((entries) => {
+              this.places = entries.items;
+              console.log(entries.items)
+          }).then(()=>{
+              this.places.map(loc => {
+                  markers.push(new google.maps.Marker({
+                      position: {lat: loc.fields.location.lat, lng: loc.fields.location.lon},
+                      map: this.map
+                  }))
+              });
+
+              console.log(markers)
+          });
+
+
+
+
+
+      },
+    handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      infoWindow.setPosition(pos);
+      infoWindow.setContent(browserHasGeolocation ?
+          'Error: The Geolocation service failed.' :
+          'Error: Your browser doesn\'t support geolocation.');
+      infoWindow.open(map);
+      }
+    },
+    mounted (){
+      this.init();
     }
 }
 </script>
