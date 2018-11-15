@@ -10,6 +10,9 @@ window.contentfulClient = createClient({
     space: 'cupfip093pb1'
 });
 
+window.$rating = [];
+window.$preferences = [];
+
 new Vue({
   router,
   render: h => h(App)

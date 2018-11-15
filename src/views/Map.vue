@@ -1,13 +1,12 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <!--<HelloWorld msg="Welcome to Your Vue.js App"/>-->
+  <div class="places">
     <ul v-for="place in places">
       <li>{{place.fields.name}}</li>
       <li>{{place.fields.description}}</li>
       <li>{{place.fields.location}}</li>
       <li>Time spent: {{place.fields.time}}</li>
-      <li>Rating: {{place.fields.rating}}</li>
+      <li>Rogue rating: {{place.fields.rating}}</li>
+      <img height="150px" width="200px" v-bind:src=place.fields.photos[0].fields.file.url />
     </ul>
     <div id="map"></div>
   </div>
@@ -20,7 +19,7 @@ import SnazzyInfoWindow from 'snazzy-info-window'
 import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 
 export default {
-  name: 'home',
+  name: 'mapView',
   components: {
     HelloWorld
   },
@@ -31,6 +30,7 @@ export default {
   },
   methods:{
       init(){
+          console.log(window.$rating[0].fields.selected)
 
           const element = document.getElementById("map");
 
@@ -67,8 +67,8 @@ export default {
               'content_type': 'place'
           }).then((entries) => {
               this.places = entries.items;
-              console.log(entries.items)
-          }).then(()=>{
+              //console.log(this.places[0].fields.photos[0].fields.file.url)
+          }).then(() => {
               this.places.map(place => {
                   let marker = new google.maps.Marker({
                       position: {lat: place.fields.location.lat, lng: place.fields.location.lon},
@@ -80,13 +80,14 @@ export default {
                       content:'<h1>'+place.fields.name+'</h1>'+
                               '<p>'+place.fields.description+'</p>'+
                               '<p>Time spent: '+place.fields.time+'</p>'+
-                              '<p>Rating: '+place.fields.rating+'</p>'
+                              '<p>Rogue rating: '+place.fields.rating+'</p>' +
+                              '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
 
                   });
                   markers.push(marker)
               });
 
-              console.log(markers)
+              //console.log(markers)
           });
 
 
