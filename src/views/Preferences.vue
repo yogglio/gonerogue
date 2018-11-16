@@ -10,7 +10,7 @@
 </template>
 
 <script>
-
+    import shared from '@/shared.js';
 export default {
   name: 'preferences',
   data() {
@@ -36,21 +36,21 @@ export default {
           }*/
 
       toggle(i){
-          window.$rating[i].fields.selected = !window.$rating[i].fields.selected;
-          console.log(window.$rating[i].fields.selected)
+          shared.rating[i].fields.selected = !shared.rating[i].fields.selected;
+          console.log(shared.rating[i].fields.selected)
           /*this.rating[i].fields.selected = !this.rating[i].fields.selected;
           localStorage.setItem("rating",JSON.stringify(this.rating));
           console.log(this.rating[i].fields.selected);*/
       },
       select(i){
-          window.$preferences.forEach((p) => {
+          shared.preferences.forEach((p) => {
               p.fields.selected = false;
-          })
-          window.$preferences[i].fields.selected = true;
+          });
+          shared.preferences[i].fields.selected = true;
           this.errors.noPreferences = '';
       }
       ,openMap(){
-          if (window.$preferences.filter(obj => obj.fields.selected === true).length > 0) {
+          if (shared.preferences.filter(obj => obj.fields.selected === true).length === 1) {
               this.$router.push('/map');
           } else {
               this.errors.noPreferences = "Select a preference"
@@ -58,27 +58,27 @@ export default {
       }
   },
     mounted (){
-      if (window.$rating.length === 0){
+      if (shared.rating.length === 0){
           window.contentfulClient.getEntries({
               'content_type': 'rogueRating'
           }).then((entries)=> {
-              window.$rating = entries.items;
-              this.rating = window.$rating;
-              console.log(window.$rating)
+              shared.rating = entries.items;
+              this.rating = shared.rating;
+              console.log(shared.rating)
           })
       } else {
-          this.rating = window.$rating;
+          this.rating = shared.rating;
       }
 
-      if (window.$rating.length === 0) {
+      if (shared.rating.length === 0) {
           window.contentfulClient.getEntries({
               'content_type': 'prefernces'
           }).then((entries) => {
-              window.$preferences = entries.items;
-              this.preferences = window.$preferences;
+              shared.preferences = entries.items;
+              this.preferences = shared.preferences;
           })
       } else {
-          this.preferences = window.$preferences;
+          this.preferences = shared.preferences;
       }
 
     }

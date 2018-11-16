@@ -1,13 +1,13 @@
 <template>
   <div class="places">
-    <ul v-for="place in places">
+    <!--<ul v-for="place in places">
       <li>{{place.fields.name}}</li>
       <li>{{place.fields.description}}</li>
       <li>{{place.fields.location}}</li>
       <li>Time spent: {{place.fields.time}}</li>
       <li>Rogue rating: {{place.fields.rating}}</li>
       <img height="150px" width="200px" v-bind:src=place.fields.photos[0].fields.file.url />
-    </ul>
+    </ul>-->
     <div id="map"></div>
   </div>
 </template>
@@ -30,7 +30,7 @@ export default {
   },
   methods:{
       init(){
-          console.log(window.$rating[0].fields.selected)
+          console.log();
 
           const element = document.getElementById("map");
 
