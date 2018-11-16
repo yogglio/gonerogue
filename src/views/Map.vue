@@ -17,6 +17,7 @@
 import HelloWorld from '@/components/HelloWorld.vue';
 import SnazzyInfoWindow from 'snazzy-info-window'
 import {roguestyle, cyberstyle, redstyle} from '@/style.js';
+import shared from '@/shared.js';
 
 export default {
   name: 'mapView',
@@ -29,8 +30,10 @@ export default {
       }
   },
   methods:{
-      init(){
-          console.log();
+      init() {
+
+          let selectedRating = shared.ratings.filter(obj => obj.selected === true);
+          let selectedCategorie = shared.categories.find(obj => obj.fields.selected === true);
 
           const element = document.getElementById("map");
 
@@ -54,20 +57,37 @@ export default {
                   infoWindow.setContent('Location found.');
                   infoWindow.open(this.map);
                   this.map.setCenter(pos);
-              }, function() {
+                  this.findPlace(pos, selectedCategorie, selectedRating);
+              }, function () {
                   this.handleLocationError(true, infoWindow, map.getCenter());
               });
           } else {
               // Browser doesn't support Geolocation
               this.handleLocationError(false, infoWindow, this.map.getCenter());
           }
+      },
+      findPlace(pos,selectedCategorie,selectedRating){
 
+          let stringRating = '';
+
+          for (let i = 0; i < selectedRating.length; i++) {
+              stringRating += selectedRating[i].rating;
+              if (i !== selectedRating.length - 1) {
+                  stringRating += ','
+              }
+          }
+          console.log(stringRating);
+          console.log(selectedCategorie.fields.name);
           let markers = [];
           window.contentfulClient.getEntries({
-              'content_type': 'place'
+              'content_type': 'place',
+              'fields.category[all]': selectedCategorie.fields.name,
+              'fields.rating[in]': stringRating,
+              'fields.location[near]': pos.lat + "," + pos.lng
           }).then((entries) => {
               this.places = entries.items;
-              //console.log(this.places[0].fields.photos[0].fields.file.url)
+              console.log(this.places[0].fields.name)
+              console.log(this.places[1].fields.name)
           }).then(() => {
               this.places.map(place => {
                   let marker = new google.maps.Marker({
@@ -78,22 +98,15 @@ export default {
                   new SnazzyInfoWindow({
                       marker: marker,
                       content:'<h1>'+place.fields.name+'</h1>'+
-                              '<p>'+place.fields.description+'</p>'+
-                              '<p>Time spent: '+place.fields.time+'</p>'+
-                              '<p>Rogue rating: '+place.fields.rating+'</p>' +
-                              '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
+                          '<p>'+place.fields.description+'</p>'+
+                          '<p>Time spent: '+place.fields.time+'</p>'+
+                          '<p>Rogue rating: '+place.fields.rating+'</p>' +
+                          '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
 
                   });
                   markers.push(marker)
               });
-
-              //console.log(markers)
           });
-
-
-
-
-
       },
     handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);

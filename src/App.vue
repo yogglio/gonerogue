@@ -4,7 +4,7 @@
       <router-link to="/">Preferences</router-link> |
       <router-link to="/map">Map</router-link>
     </div>
-    <!--<keep-alive include="preferences">-->
+    <!--<keep-alive include="categories">-->
         <router-view/>
     <!--</keep-alive>-->
   </div>
