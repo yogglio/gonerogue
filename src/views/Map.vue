@@ -18,6 +18,7 @@ import HelloWorld from '@/components/HelloWorld.vue';
 import SnazzyInfoWindow from 'snazzy-info-window'
 import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 import shared from '@/shared.js';
+import image from '@/assets/dot.png';
 
 export default {
   name: 'mapView',
@@ -30,7 +31,16 @@ export default {
       }
   },
   methods:{
-      init() {
+      initMap() {
+          let pos;
+          let userMarker;
+
+          let icon = {
+              url: image , // url
+              scaledSize: new google.maps.Size(10, 10), // scaled size
+              origin: new google.maps.Point(0,0), // origin
+              anchor: new google.maps.Point(0, 0) // anchor
+          };
 
           let selectedRating = shared.ratings.filter(obj => obj.selected === true);
           let selectedCategorie = shared.categories.find(obj => obj.fields.selected === true);
@@ -39,34 +49,52 @@ export default {
 
           const options = {
               zoom: 14,
-              //center: new google.maps.LatLng(47.071467, 8.277621),
+              center: new google.maps.LatLng(47.071467, 8.277621),
               styles: roguestyle
           };
+
           this.map = new google.maps.Map(element, options);
+
+          let directionsService = new google.maps.DirectionsService;
+          let directionsDisplay = new google.maps.DirectionsRenderer({ polylineOptions:{strokeColor:"#ff2efc",strokeWeight:5}, suppressMarkers:true });
+          directionsDisplay.setMap(this.map);
 
           let infoWindow = new google.maps.InfoWindow;
 
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition((position) => {
-                  let pos = {
+                  pos = {
                       lat: position.coords.latitude,
                       lng: position.coords.longitude
                   };
-
-                  infoWindow.setPosition(pos);
-                  infoWindow.setContent('Location found.');
-                  infoWindow.open(this.map);
                   this.map.setCenter(pos);
-                  this.findPlace(pos, selectedCategorie, selectedRating);
+                      userMarker = new google.maps.Marker({
+                      position: {lat: position.coords.latitude, lng: position.coords.longitude},
+                      map: this.map,
+                      icon: icon
+
+                  });
+                  let placeMarker = this.findPlace(pos, selectedCategorie, selectedRating);
+
+                  navigator.geolocation.watchPosition((position) => {
+                      userMarker.setPosition(new google.maps.LatLng(
+                          position.coords.latitude,
+                          position.coords.longitude));
+                          console.log("update location");
+                          this.calcAndDisplayRoute(directionsService,directionsDisplay,userMarker,placeMarker[0])
+                  },  function(){
+                      this.handleLocationError(true, infoWindow, map.getCenter());
+                  });
+
               }, function () {
                   this.handleLocationError(true, infoWindow, map.getCenter());
               });
           } else {
               // Browser doesn't support Geolocation
-              this.handleLocationError(false, infoWindow, this.map.getCenter());
+              this.handleLocationError(false, infoWindow, map.getCenter());
           }
-      },
-      findPlace(pos,selectedCategorie,selectedRating){
+       },
+      findPlace(pos,selectedCategory,selectedRating){
 
           let stringRating = '';
 
@@ -77,17 +105,15 @@ export default {
               }
           }
           console.log(stringRating);
-          console.log(selectedCategorie.fields.name);
+          console.log(selectedCategory.fields.name);
           let markers = [];
           window.contentfulClient.getEntries({
               'content_type': 'place',
-              'fields.category[all]': selectedCategorie.fields.name,
+              'fields.category[all]': selectedCategory.fields.name,
               'fields.rating[in]': stringRating,
               'fields.location[near]': pos.lat + "," + pos.lng
           }).then((entries) => {
               this.places = entries.items;
-              console.log(this.places[0].fields.name)
-              console.log(this.places[1].fields.name)
           }).then(() => {
               this.places.map(place => {
                   let marker = new google.maps.Marker({
@@ -107,8 +133,23 @@ export default {
                   markers.push(marker)
               });
           });
+          return markers;
       },
-    handleLocationError(browserHasGeolocation, infoWindow, pos) {
+      calcAndDisplayRoute(directionsService, directionsDisplay, startPos, endPos){
+          directionsService.route({
+              origin: startPos.getPosition(),
+              destination: endPos.getPosition(),
+              travelMode: 'WALKING'
+          }, function(response, status) {
+              if (status === 'OK') {
+                  directionsDisplay.setDirections(response);
+              } else {
+                  window.alert('Directions request failed due to ' + status);
+              }
+          });
+
+      },
+      handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);
       infoWindow.setContent(browserHasGeolocation ?
           'Error: The Geolocation service failed.' :
@@ -117,7 +158,7 @@ export default {
       }
     },
     mounted (){
-      this.init();
+      this.initMap();
     }
 }
 </script>
