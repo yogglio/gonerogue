@@ -42,7 +42,7 @@ export default {
               url: image , // url
               scaledSize: new google.maps.Size(10, 10), // scaled size
               origin: new google.maps.Point(0,0), // origin
-              anchor: new google.maps.Point(0, 0) // anchor
+              anchor: new google.maps.Point(5, 5) // anchor
           };
 
           let selectedRating = shared.ratings.filter(obj => obj.selected === true);
@@ -76,8 +76,14 @@ export default {
                       position: {lat: position.coords.latitude, lng: position.coords.longitude},
                       map: this.map,
                       icon: icon
-
                   });
+                  let circle = new google.maps.Circle({
+                      map: this.map,
+                      radius: position.coords.accuracy,
+                      fillColor: '#89858c',
+                      strokeWeight: 0
+                  });
+                  circle.bindTo('center', userMarker, 'position');
                   this.findPlace(startPos, selectedCategory, selectedRating).then((place)=>{
                      id = navigator.geolocation.watchPosition((position) => {
                           let updatedPos = {
@@ -85,6 +91,7 @@ export default {
                               lng: position.coords.longitude
                           };
                           userMarker.setPosition(updatedPos);
+                         circle.setRadius(position.coords.accuracy);
                           console.log("update position");
                           this.calcAndDisplayRoute(directionsService,directionsDisplay,updatedPos,place)
                       },  function(){

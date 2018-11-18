@@ -25,24 +25,9 @@ export default {
       }
   },
   methods: {
-/*          if (localStorage.getItem("rating") === null) {
-              window.contentfulClient.getEntries({
-                  'content_type': 'rogueRating'
-              }).then((entries) => {
-                  localStorage.setItem("rating", JSON.stringify(entries.items));
-                  this.rating = entries.items;
-                  console.log(this.rating)
-              })
-          } else {
-              this.rating = JSON.parse(localStorage.getItem("rating"))
-          }*/
-
       toggle(i){
           shared.ratings[i].selected = !shared.ratings[i].selected;
           console.log(shared.ratings[i].selected)
-          /*this.rating[i].fields.selected = !this.rating[i].fields.selected;
-          localStorage.setItem("rating",JSON.stringify(this.rating));
-          console.log(this.rating[i].fields.selected);*/
       },
       select(i){
           shared.categories.forEach((p) => {
@@ -70,17 +55,6 @@ export default {
       }
   },
     mounted (){
-      /*if (shared.rating.length === 0){
-          window.contentfulClient.getEntries({
-              'content_type': 'rogueRating'
-          }).then((entries)=> {
-              shared.rating = entries.items;
-              this.rating = shared.rating;
-              console.log(shared.rating)
-          })
-      } else {
-          this.rating = shared.rating;
-      }*/
       this.ratings = shared.ratings;
 
       if (shared.categories.length === 0) {
