@@ -20,6 +20,8 @@ import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 import shared from '@/shared.js';
 import image from '@/assets/dot.png';
 
+var id;
+
 export default {
   name: 'mapView',
   components: {
@@ -32,7 +34,8 @@ export default {
   },
   methods:{
       initMap() {
-          let pos;
+          console.log("initMap");
+          let startPos;
           let userMarker;
 
           let icon = {
@@ -43,7 +46,7 @@ export default {
           };
 
           let selectedRating = shared.ratings.filter(obj => obj.selected === true);
-          let selectedCategorie = shared.categories.find(obj => obj.fields.selected === true);
+          let selectedCategory = shared.categories.find(obj => obj.fields.selected === true);
 
           const element = document.getElementById("map");
 
@@ -63,27 +66,30 @@ export default {
 
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition((position) => {
-                  pos = {
+                  console.log("current position");
+                  startPos = {
                       lat: position.coords.latitude,
                       lng: position.coords.longitude
                   };
-                  this.map.setCenter(pos);
+                  this.map.setCenter(startPos);
                       userMarker = new google.maps.Marker({
                       position: {lat: position.coords.latitude, lng: position.coords.longitude},
                       map: this.map,
                       icon: icon
 
                   });
-                  let placeMarker = this.findPlace(pos, selectedCategorie, selectedRating);
-
-                  navigator.geolocation.watchPosition((position) => {
-                      userMarker.setPosition(new google.maps.LatLng(
-                          position.coords.latitude,
-                          position.coords.longitude));
-                          console.log("update location");
-                          this.calcAndDisplayRoute(directionsService,directionsDisplay,userMarker,placeMarker[0])
-                  },  function(){
-                      this.handleLocationError(true, infoWindow, map.getCenter());
+                  this.findPlace(startPos, selectedCategory, selectedRating).then((place)=>{
+                     id = navigator.geolocation.watchPosition((position) => {
+                          let updatedPos = {
+                              lat: position.coords.latitude,
+                              lng: position.coords.longitude
+                          };
+                          userMarker.setPosition(updatedPos);
+                          console.log("update position");
+                          this.calcAndDisplayRoute(directionsService,directionsDisplay,updatedPos,place)
+                      },  function(){
+                          this.handleLocationError(true, infoWindow, map.getCenter());
+                      });
                   });
 
               }, function () {
@@ -95,7 +101,6 @@ export default {
           }
        },
       findPlace(pos,selectedCategory,selectedRating){
-
           let stringRating = '';
 
           for (let i = 0; i < selectedRating.length; i++) {
@@ -104,50 +109,92 @@ export default {
                   stringRating += ','
               }
           }
-          console.log(stringRating);
-          console.log(selectedCategory.fields.name);
-          let markers = [];
-          window.contentfulClient.getEntries({
+          //console.log(stringRating);
+          //console.log(selectedCategory.fields.name);
+          let promise = window.contentfulClient.getEntries({
               'content_type': 'place',
               'fields.category[all]': selectedCategory.fields.name,
               'fields.rating[in]': stringRating,
               'fields.location[near]': pos.lat + "," + pos.lng
           }).then((entries) => {
               this.places = entries.items;
+              //console.log(this.places);
           }).then(() => {
-              this.places.map(place => {
-                  let marker = new google.maps.Marker({
-                      position: {lat: place.fields.location.lat, lng: place.fields.location.lon},
-                      map: this.map
+              let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
+              if (this.places.length === 0) {
+                  window.alert('No place matching your preference ');
+                  return;
+              }
+              let place;
+              if (visitedPlaces == null || visitedPlaces.length === 0){
+                  place = this.places[0];
+              } else {
+                  place = this.places.find(el => {
+                      let isVisited = false;
+                      for(let vP of visitedPlaces){
+                          if (el.sys.id === vP.sys.id) {
+                              isVisited = true;
+                          }
+                      }
+                      if (!isVisited){
+                          return el;
+                      }
+                  })
+              }
 
-                  });
-                  new SnazzyInfoWindow({
-                      marker: marker,
-                      content:'<h1>'+place.fields.name+'</h1>'+
-                          '<p>'+place.fields.description+'</p>'+
-                          '<p>Time spent: '+place.fields.time+'</p>'+
-                          '<p>Rogue rating: '+place.fields.rating+'</p>' +
-                          '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
+               let marker = new google.maps.Marker({
+                  position: {lat: place.fields.location.lat, lng: place.fields.location.lon},
+                  map: this.map
 
-                  });
-                  markers.push(marker)
               });
+              new SnazzyInfoWindow({
+                  marker: marker,
+                  content:'<h1>'+place.fields.name+'</h1>'+
+                      '<p>'+place.fields.description+'</p>'+
+                      '<p>Time spent: '+place.fields.time+'</p>'+
+                      '<p>Rogue rating: '+place.fields.rating+'</p>' +
+                      '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
+
+              });
+              return place;
           });
-          return markers;
+          return promise;
       },
-      calcAndDisplayRoute(directionsService, directionsDisplay, startPos, endPos){
+      calcAndDisplayRoute(directionsService, directionsDisplay, startPos, place){
+          let endPos = {
+              lat: place.fields.location.lat,
+              lng: place.fields.location.lon
+          };
           directionsService.route({
-              origin: startPos.getPosition(),
-              destination: endPos.getPosition(),
+              origin: startPos,
+              destination: endPos,
               travelMode: 'WALKING'
-          }, function(response, status) {
+          },(response, status) => {
               if (status === 'OK') {
+                  //console.log(response);
                   directionsDisplay.setDirections(response);
+                  this.checkIfArrived(response, place);
               } else {
                   window.alert('Directions request failed due to ' + status);
               }
           });
-
+      },
+      checkIfArrived(direction, place){
+          //console.log(place);
+          if(direction.routes[0].legs[0].distance.value < 50){
+              console.log("arrived");
+              if(sessionStorage.getItem("visitedPlaces") === null){
+                  let visitedPlaces = [];
+                  visitedPlaces.push(place);
+                  sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                  //console.log(visitedPlaces)
+              } else {
+                  let visitedPlaces = sessionStorage.getItem("visitedPlaces");
+                  visitedPlaces.push(place);
+                  sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                  //console.log(visitedPlaces)
+              }
+          }
       },
       handleLocationError(browserHasGeolocation, infoWindow, pos) {
       infoWindow.setPosition(pos);
@@ -159,6 +206,9 @@ export default {
     },
     mounted (){
       this.initMap();
+    },
+    destroyed(){
+      navigator.geolocation.clearWatch(id);
     }
 }
 </script>
