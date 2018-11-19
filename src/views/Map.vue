@@ -14,19 +14,15 @@
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue';
 import SnazzyInfoWindow from 'snazzy-info-window'
 import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 import shared from '@/shared.js';
 import image from '@/assets/dot.png';
 
-var id;
+let id;
 
 export default {
   name: 'mapView',
-  components: {
-    HelloWorld
-  },
   data() {
       return {
           places: []
@@ -38,32 +34,35 @@ export default {
           let startPos;
           let userMarker;
 
+          // custom Icon setup
           let icon = {
-              url: image , // url
-              scaledSize: new google.maps.Size(10, 10), // scaled size
-              origin: new google.maps.Point(0,0), // origin
-              anchor: new google.maps.Point(5, 5) // anchor
+              url: image ,
+              scaledSize: new google.maps.Size(10, 10),
+              origin: new google.maps.Point(0,0),
+              anchor: new google.maps.Point(5, 5)
           };
 
+          // get the selected preferences
           let selectedRating = shared.ratings.filter(obj => obj.selected === true);
           let selectedCategory = shared.categories.find(obj => obj.fields.selected === true);
 
+          // init map
           const element = document.getElementById("map");
-
           const options = {
               zoom: 14,
               center: new google.maps.LatLng(47.071467, 8.277621),
               styles: roguestyle
           };
-
           this.map = new google.maps.Map(element, options);
 
+          // direction API
           let directionsService = new google.maps.DirectionsService;
           let directionsDisplay = new google.maps.DirectionsRenderer({ polylineOptions:{strokeColor:"#ff2efc",strokeWeight:5}, suppressMarkers:true });
           directionsDisplay.setMap(this.map);
 
           let infoWindow = new google.maps.InfoWindow;
 
+          // get User location
           if (navigator.geolocation) {
               navigator.geolocation.getCurrentPosition((position) => {
                   console.log("current position");
@@ -91,7 +90,7 @@ export default {
                               lng: position.coords.longitude
                           };
                           userMarker.setPosition(updatedPos);
-                         circle.setRadius(position.coords.accuracy);
+                          circle.setRadius(position.coords.accuracy);
                           console.log("update position");
                           this.calcAndDisplayRoute(directionsService,directionsDisplay,updatedPos,place)
                       },  function(){
@@ -107,6 +106,7 @@ export default {
               this.handleLocationError(false, infoWindow, map.getCenter());
           }
        },
+      // get the closest place to the user location with matching preferences
       findPlace(pos,selectedCategory,selectedRating){
           let stringRating = '';
 
@@ -167,6 +167,7 @@ export default {
           });
           return promise;
       },
+      // Show the route from the user location to the desired location
       calcAndDisplayRoute(directionsService, directionsDisplay, startPos, place){
           let endPos = {
               lat: place.fields.location.lat,
@@ -186,6 +187,7 @@ export default {
               }
           });
       },
+      // store the place in the session, when the user arrived => won't show up again in search
       checkIfArrived(direction, place){
           //console.log(place);
           if(direction.routes[0].legs[0].distance.value < 50){
@@ -215,6 +217,7 @@ export default {
       this.initMap();
     },
     destroyed(){
+      // clear the watch Position, so it loads again correctly
       navigator.geolocation.clearWatch(id);
     }
 }
