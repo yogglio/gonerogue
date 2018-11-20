@@ -10,6 +10,10 @@
     </ul>-->
     <div class="back-btn" @click="openPrefernces">&lt;</div>
     <div id="map"></div>
+    <div class="overlay" v-if="showOverlay">
+      <div class="text">No place matching your preference</div>
+      <div class="overlay-btn" @click="openPrefernces">CHANGE PREFERNCES</div>
+    </div>
   </div>
 </template>
 
@@ -26,7 +30,8 @@ export default {
   name: 'mapView',
   data() {
       return {
-          places: []
+          places: [],
+          showOverlay: false
       }
   },
   methods:{
@@ -130,7 +135,7 @@ export default {
           }).then(() => {
               let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
               if (this.places.length === 0) {
-                  window.alert('No place matching your preference ');
+                  this.showOverlay = true;
                   return;
               }
               let place;
@@ -191,7 +196,7 @@ export default {
       // store the place in the session, when the user arrived => won't show up again in search
       checkIfArrived(direction, place){
           //console.log(place);
-          if(direction.routes[0].legs[0].distance.value < 50){
+          if(direction.routes[0].legs[0].distance.value < 20){
               console.log("arrived");
               if(sessionStorage.getItem("visitedPlaces") === null){
                   let visitedPlaces = [];
@@ -252,6 +257,39 @@ export default {
     #map {
       height: 100%;
       width: 100%;
+    }
+
+    .overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100vh;
+      width: 100%;
+      background-color: rgba(9,24,51, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-flow: column;
+
+
+      .text {
+        color: white;
+        margin: 20px;
+      }
+
+      .overlay-btn {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid $back_button_color;
+        background-color: $back_button_color;
+        color: white;
+        border-radius: 500px;
+        padding: 16px 48px;
+        cursor: pointer;
+      }
+
+
     }
 
   }

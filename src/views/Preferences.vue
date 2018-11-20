@@ -7,7 +7,7 @@
       </div>
       <h3 id="t2" class="title">WHAT IS YOUR NEXT STEP?</h3>
       <div class="categories">
-          <div class="category" v-for="(p,i) in categories" v-on:click="select(i)" v-bind:class="{selected: p.fields.selected}">{{p.fields.name}}</div>
+          <div class="category" v-for="(p,i) in categories" v-on:click="select(i)" v-bind:class="{selected: p.fields.selected}">{{p.fields.name.toUpperCase()}}</div>
       </div>
       <div v-if="errors.length">
           <ul class="errors">
@@ -167,6 +167,8 @@ export default {
             justify-content: center;
             align-items: center;
             border: 2px solid $go_button_color;
+            background-color: $go_button_color;
+            color: white;
             border-radius: 500px;
             padding: 16px 48px;
             width: 100%;
