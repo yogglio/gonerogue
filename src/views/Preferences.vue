@@ -101,6 +101,7 @@ export default {
 
     .header{
         grid-area: header;
+        margin: 0.5em 0;
     }
 
     #t1 {
@@ -166,7 +167,8 @@ export default {
             border: 2px solid $go_button_color;
             border-radius: 500px;
             padding: 16px 48px;
-            width: 400px;
+            width: 100%;
+            max-width: 500px;
         }
     }
 
