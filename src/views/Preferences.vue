@@ -5,7 +5,7 @@
       <div class="levels">
         <div class="icon" v-for="(r,i) in ratings" v-on:click="toggle(i)" v-bind:class="{selected: r.selected}">{{r.rating}}</div>
       </div>
-      <h3 id="t2" class="title">WHAT IS YOUR NEXT STEP</h3>
+      <h3 id="t2" class="title">WHAT IS YOUR NEXT STEP?</h3>
       <div class="categories">
           <div class="category" v-for="(p,i) in categories" v-on:click="select(i)" v-bind:class="{selected: p.fields.selected}">{{p.fields.name}}</div>
       </div>
@@ -129,6 +129,7 @@ export default {
             color: white;
             border: 2px solid $button_color;
             border-radius: 500px;
+            cursor: pointer;
         }
     }
 
@@ -149,6 +150,7 @@ export default {
             align-items: center;
             line-height: 1;
             color: white;
+            cursor: pointer;
         }
 
     }
@@ -169,6 +171,7 @@ export default {
             padding: 16px 48px;
             width: 100%;
             max-width: 500px;
+            cursor: pointer;
         }
     }
 

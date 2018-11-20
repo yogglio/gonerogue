@@ -246,6 +246,7 @@ export default {
       font-size: 40px;
       justify-self: start;
       padding: 0 20px;
+      cursor: pointer;
     }
 
     #map {
