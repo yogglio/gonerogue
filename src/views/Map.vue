@@ -8,6 +8,7 @@
       <li>Rogue rating: {{place.fields.rating}}</li>
       <img height="150px" width="200px" v-bind:src=place.fields.photos[0].fields.file.url />
     </ul>-->
+    <div class="back-btn" @click="openPrefernces">&lt;</div>
     <div id="map"></div>
   </div>
 </template>
@@ -211,6 +212,9 @@ export default {
           'Error: The Geolocation service failed.' :
           'Error: Your browser doesn\'t support geolocation.');
       infoWindow.open(map);
+      },
+      openPrefernces(){
+          this.$router.push('/');
       }
     },
     mounted (){
@@ -219,13 +223,35 @@ export default {
     destroyed(){
       // clear the watch Position, so it loads again correctly
       navigator.geolocation.clearWatch(id);
-    }
+    },
+
 }
 </script>
 
 <style scoped lang="scss">
-  #map {
-    height: 80vh;
-    width: 80vw;
+  $back_button_color: #e03f75;
+
+  .places {
+    display: grid;
+    grid-template-rows: max-content 1fr;
+    grid-template-columns: 100%;
+    min-height: 100vh;
+    grid-template-areas:
+            "header"
+            "map";
+
+    .back-btn {
+      color: $back_button_color;
+      height: 40px;
+      font-size: 40px;
+      justify-self: start;
+      padding: 0 20px;
+    }
+
+    #map {
+      height: 100%;
+      width: 100%;
+    }
+
   }
 </style>

@@ -15,7 +15,7 @@
           </ul>
       </div>
       <div class="bottom">
-          <div class="go-button" @click="openMap">GO ROGUE</div>
+          <div class="go-btn" @click="openMap">GO ROGUE</div>
       </div>
   </div>
 </template>
@@ -86,22 +86,21 @@ export default {
 
     .preferences {
         display: grid;
-        grid-template-rows: repeat(4, minmax(min-content, max-content)) 1fr 64px minmax(16px, max-content);
+        grid-template-rows: repeat(4, minmax(min-content, max-content)) 1fr minmax(min-content, max-content) 80px ;
         grid-template-columns: 100%;
-        height: 100%;
+        min-height: 100vh;
+        padding: 0 20px;
         grid-template-areas:
                 "header"
                 "title1"
                 "levels"
                 "title2"
                 "categories"
-                "bottom"
-                "error";
-    }
+                "error"
+                "bottom";
 
     .header{
         grid-area: header;
-
     }
 
     #t1 {
@@ -135,10 +134,10 @@ export default {
     .categories {
         display: grid;
         grid-gap: 20px;
-        grid-template-columns: repeat(auto-fit, minmax(140px,1fr));
-        align-self: center;
+        grid-template-columns: repeat(auto-fit, minmax(120px,1fr));
         grid-area: categories;
         align-self: start;
+        padding-bottom: 20px;
 
         .category {
             border: 2px solid $button_color;
@@ -156,16 +155,18 @@ export default {
     .bottom {
         width: 100%;
         grid-area: bottom;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        .go-button {
+        .go-btn {
             display: flex;
             justify-content: center;
             align-items: center;
             border: 2px solid $go_button_color;
             border-radius: 500px;
             padding: 16px 48px;
-            margin: auto;
-            max-width: 400px;
+            width: 400px;
         }
     }
 
@@ -181,9 +182,9 @@ export default {
     }
 
 
-  .selected {
+    .selected {
     background-color: $button_color;
-  }
-
+    }
+    }
 
 </style>

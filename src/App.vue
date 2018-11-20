@@ -16,19 +16,23 @@
   @import '../node_modules/snazzy-info-window/dist/snazzy-info-window.scss';
   @import url('https://fonts.googleapis.com/css?family=Open+Sans|Orbitron');
 
-body, html {
-  height: 100%;
-  width: 100%;
-}
-#app {
+
+  html{
+    width: 100%;
+    min-height: 100vh;
+  }
+  body{
+    min-height: 100vh;
+    width: 100%;
+  }
+  #app {
   font-family: 'Orbitron', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #e03f75;
   background-color: #091833;
-  height: 100%;
-  padding: 0 20px;
+  min-height: 100vh;
   p {
     font-family: 'Open Sans', sans-serif;
   }
