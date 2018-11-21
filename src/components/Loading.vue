@@ -26,7 +26,7 @@
     .loading {
         height: 100vh;
         width: 100%;
-        background-color: #091833;
+        background-color: $background;
         display: flex;
         justify-content: center;
         align-items: center;

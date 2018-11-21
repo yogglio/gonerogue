@@ -31,8 +31,8 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #e03f75;
-  background-color: #091833;
+  color: $accent_color_one;
+  background-color: $background;
   min-height: 100vh;
   p {
     font-family: 'Open Sans', sans-serif;
