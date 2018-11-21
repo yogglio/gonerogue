@@ -23,7 +23,7 @@
 <script>
 // @ is an alias to /src
 import SnazzyInfoWindow from 'snazzy-info-window'
-import {roguestyle, cyberstyle, redstyle} from '@/style.js';
+import {cyberstyle} from '@/style.js';
 import shared from '@/shared.js';
 import image from '@/assets/dot.png';
 import Loading from "../components/Loading";
@@ -63,7 +63,7 @@ export default {
           const options = {
               zoom: 14,
               center: new google.maps.LatLng(47.071467, 8.277621),
-              styles: roguestyle
+              styles: cyberstyle
           };
           this.map = new google.maps.Map(element, options);
 
