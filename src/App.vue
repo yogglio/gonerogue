@@ -27,7 +27,7 @@
   }
   #app {
   font-family: 'Orbitron', sans-serif;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.1em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
