@@ -2,14 +2,6 @@
   <div>
     <loading v-if="loading"></loading>
   <div v-show="!loading" class="places">
-    <!--<ul v-for="place in places">
-      <li>{{place.fields.name}}</li>
-      <li>{{place.fields.description}}</li>
-      <li>{{place.fields.location}}</li>
-      <li>Time spent: {{place.fields.time}}</li>
-      <li>Rogue rating: {{place.fields.rating}}</li>
-      <img height="150px" width="200px" v-bind:src=place.fields.photos[0].fields.file.url />
-    </ul>-->
     <div class="back-btn" @click="openPrefernces">&lt;</div>
     <div id="map"></div>
     <div class="overlay" v-if="showOverlay">
@@ -17,6 +9,7 @@
       <div class="overlay-btn" @click="openPrefernces">CHANGE PREFERNCES</div>
     </div>
   </div>
+    <infowindow v-on:closeInfowindow="showInfowindow = false" v-if="showInfowindow" v-bind:place="place"></infowindow>
   </div>
 </template>
 
@@ -27,17 +20,20 @@ import {cyberstyle} from '@/style.js';
 import shared from '@/shared.js';
 import image from '@/assets/dot.png';
 import Loading from "../components/Loading";
+import Infowindow from "../components/Infowindow";
 
 let id;
 
 export default {
   name: 'mapView',
-  components: {Loading},
+  components: {Infowindow, Loading},
   data() {
       return {
           places: [],
           showOverlay: false,
-          loading: true
+          showInfowindow: false,
+          loading: true,
+          place: null
       }
   },
   methods:{
@@ -63,7 +59,8 @@ export default {
           const options = {
               zoom: 14,
               center: new google.maps.LatLng(47.071467, 8.277621),
-              styles: cyberstyle
+              styles: cyberstyle,
+              disableDefaultUI: true
           };
           this.map = new google.maps.Map(element, options);
 
@@ -95,22 +92,25 @@ export default {
                       strokeWeight: 0
                   });
                   circle.bindTo('center', userMarker, 'position');
-                  this.findPlace(startPos, selectedCategory, selectedRating).then((place)=>{
-                     id = navigator.geolocation.watchPosition((position) => {
-                          let updatedPos = {
-                              lat: position.coords.latitude,
-                              lng: position.coords.longitude
-                          };
-                          userMarker.setPosition(updatedPos);
-                          circle.setRadius(position.coords.accuracy);
-                          console.log("update position");
-                          this.calcAndDisplayRoute(directionsService,directionsDisplay,updatedPos,place)
-                      },  function(){
-                          this.handleLocationError(true, infoWindow, map.getCenter());
-                      });
-                     this.loading = false;
-                  });
-
+                  if (selectedCategory != null) {
+                    this.findPlace(startPos, selectedCategory, selectedRating).then((place)=>{
+                       id = navigator.geolocation.watchPosition((position) => {
+                            let updatedPos = {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            };
+                            userMarker.setPosition(updatedPos);
+                            circle.setRadius(position.coords.accuracy);
+                            console.log("update position");
+                            this.calcAndDisplayRoute(directionsService,directionsDisplay,updatedPos,place)
+                        },  function(){
+                            this.handleLocationError(true, infoWindow, map.getCenter());
+                        });
+                       this.loading = false;
+                    });
+                  } else {
+                      this.loading = false;
+                  }
               }, function () {
                   this.handleLocationError(true, infoWindow, map.getCenter());
               });
@@ -131,7 +131,6 @@ export default {
           }
           //console.log(stringRating);
           //console.log(selectedCategory.fields.name);
-          if (selectedCategory !== null) {
           let promise = window.contentfulClient.getEntries({
               'content_type': 'place',
               'fields.category[all]': selectedCategory.fields.name,
@@ -161,12 +160,20 @@ export default {
                   })
               }
 
+              this.place = place;
+
                let marker = new google.maps.Marker({
                   position: {lat: place.fields.location.lat, lng: place.fields.location.lon},
                   map: this.map
-
               });
-              new SnazzyInfoWindow({
+
+              marker.addListener('click', () => {
+                  this.showInfowindow = true;
+                  console.log("show")
+              });
+
+
+/*              new SnazzyInfoWindow({
                   marker: marker,
                   content:'<h1>'+place.fields.name+'</h1>'+
                       '<p>'+place.fields.description+'</p>'+
@@ -174,11 +181,10 @@ export default {
                       '<p>Rogue rating: '+place.fields.rating+'</p>' +
                       '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
 
-              });
+              });*/
               return place;
           });
           return promise;
-      }
       },
       // Show the route from the user location to the desired location
       calcAndDisplayRoute(directionsService, directionsDisplay, startPos, place){
@@ -230,6 +236,12 @@ export default {
       },
       openPrefernces(){
           this.$router.push('/');
+      },
+      openInfowindow(marker, place){
+          this.place = place;
+          marker.addListener('click', function() {
+              this.showInfowindow = true;
+          });
       }
     },
     mounted (){
