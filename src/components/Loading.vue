@@ -1,7 +1,7 @@
 <template>
     <div class="loading">
         <h3>Loading...</h3>
-        <img src="../assets/animation.gif">
+        <img src="../assets/logo.svg">
     </div>
 </template>
 
@@ -26,7 +26,7 @@
     .loading {
         height: 100vh;
         width: 100%;
-        background-color: #091833;
+        background-color: $background;
         display: flex;
         justify-content: center;
         align-items: center;

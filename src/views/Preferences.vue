@@ -5,7 +5,9 @@
       <h1 class="header">GONE ROGUE</h1>
       <h3 id="t1" class="title">HOW ROGUE ARE YOU?</h3>
       <div class="levels">
-        <div class="icon" v-for="(r,i) in ratings" v-on:click="toggle(i)" v-bind:class="{selected: r.selected}">{{r.rating}}</div>
+        <div class="icon" v-for="(r,i) in ratings" v-on:click="toggle(i)" v-bind:class="{selected: r.selected}">
+            <img v-bind:src="r.path">
+        </div>
       </div>
       <h3 id="t2" class="title">WHAT IS YOUR NEXT STEP?</h3>
       <div class="categories">
@@ -40,7 +42,7 @@ export default {
   methods: {
       toggle(i){
           shared.ratings[i].selected = !shared.ratings[i].selected;
-          console.log(shared.ratings[i].selected)
+          //console.log(shared.ratings[i].selected)
       },
       select(i){
           shared.categories.forEach((p) => {
@@ -88,9 +90,6 @@ export default {
 
 <style scoped lang="scss">
 
-    $button_color: #0abdc6;
-    $go_button_color: #e03f75;
-
     .preferences {
         display: grid;
         grid-template-rows: repeat(4, minmax(min-content, max-content)) 1fr minmax(min-content, max-content) 80px ;
@@ -134,7 +133,7 @@ export default {
             justify-content: center;
             align-items: center;
             color: white;
-            border: 2px solid $button_color;
+            border: 2px solid $accent_color_two;
             border-radius: 500px;
             cursor: pointer;
         }
@@ -149,7 +148,7 @@ export default {
         padding-bottom: 20px;
 
         .category {
-            border: 2px solid $button_color;
+            border: 2px solid $accent_color_two;
             border-radius: 500px;
             padding: 16px 48px;
             display: flex;
@@ -173,8 +172,8 @@ export default {
             display: flex;
             justify-content: center;
             align-items: center;
-            border: 2px solid $go_button_color;
-            background-color: $go_button_color;
+            border: 2px solid $accent_color_one;
+            background-color: $accent_color_one;
             color: white;
             border-radius: 500px;
             padding: 16px 48px;
@@ -197,8 +196,9 @@ export default {
 
 
     .selected {
-    background-color: $button_color;
+        background-color: $accent_color_two;
     }
+
     }
 
 </style>
