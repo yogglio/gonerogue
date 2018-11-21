@@ -1,7 +1,7 @@
 <template>
     <div class="loading">
         <h3>Loading...</h3>
-        <img src="../assets/logo.svg">
+        <img src="../assets/animation.gif">
     </div>
 </template>
 
