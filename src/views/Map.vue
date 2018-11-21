@@ -1,5 +1,7 @@
 <template>
-  <div class="places">
+  <div>
+    <loading v-if="loading"></loading>
+  <div v-show="!loading" class="places">
     <!--<ul v-for="place in places">
       <li>{{place.fields.name}}</li>
       <li>{{place.fields.description}}</li>
@@ -15,6 +17,7 @@
       <div class="overlay-btn" @click="openPrefernces">CHANGE PREFERNCES</div>
     </div>
   </div>
+  </div>
 </template>
 
 <script>
@@ -23,15 +26,18 @@ import SnazzyInfoWindow from 'snazzy-info-window'
 import {roguestyle, cyberstyle, redstyle} from '@/style.js';
 import shared from '@/shared.js';
 import image from '@/assets/dot.png';
+import Loading from "../components/Loading";
 
 let id;
 
 export default {
   name: 'mapView',
+  components: {Loading},
   data() {
       return {
           places: [],
-          showOverlay: false
+          showOverlay: false,
+          loading: true
       }
   },
   methods:{
@@ -102,6 +108,7 @@ export default {
                       },  function(){
                           this.handleLocationError(true, infoWindow, map.getCenter());
                       });
+                     this.loading = false;
                   });
 
               }, function () {
@@ -124,6 +131,7 @@ export default {
           }
           //console.log(stringRating);
           //console.log(selectedCategory.fields.name);
+          if (selectedCategory !== null) {
           let promise = window.contentfulClient.getEntries({
               'content_type': 'place',
               'fields.category[all]': selectedCategory.fields.name,
@@ -131,8 +139,6 @@ export default {
               'fields.location[near]': pos.lat + "," + pos.lng
           }).then((entries) => {
               this.places = entries.items;
-              //console.log(this.places);
-          }).then(() => {
               let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
               if (this.places.length === 0) {
                   this.showOverlay = true;
@@ -172,9 +178,13 @@ export default {
               return place;
           });
           return promise;
+      }
       },
       // Show the route from the user location to the desired location
       calcAndDisplayRoute(directionsService, directionsDisplay, startPos, place){
+          if (this.places.length === 0) {
+              return;
+          }
           let endPos = {
               lat: place.fields.location.lat,
               lng: place.fields.location.lon

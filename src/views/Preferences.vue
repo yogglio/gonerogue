@@ -1,5 +1,7 @@
 <template>
-  <div class="preferences">
+    <div>
+    <loading v-if="loading"></loading>
+  <div v-else class="preferences">
       <h1 class="header">GONE ROGUE</h1>
       <h3 id="t1" class="title">HOW ROGUE ARE YOU?</h3>
       <div class="levels">
@@ -18,17 +20,21 @@
           <div class="go-btn" @click="openMap">GO ROGUE</div>
       </div>
   </div>
+  </div>
 </template>
 
 <script>
     import shared from '@/shared.js';
+    import Loading from "../components/Loading";
 export default {
   name: 'categories',
-  data() {
+    components: {Loading},
+    data() {
       return {
           ratings: [],
           categories:[],
-          errors:[]
+          errors:[],
+          loading: true
       }
   },
   methods: {
@@ -75,6 +81,7 @@ export default {
           this.categories = shared.categories;
       }
 
+        this.loading = false;
     }
 }
 </script>
