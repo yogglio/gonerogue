@@ -1,10 +1,12 @@
 <template>
     <div class="loading">
-        Loading
+        <h3>Loading...</h3>
+        <img src="../assets/logo.svg">
     </div>
 </template>
 
 <script>
+    import logo from '@/assets/logo.svg';
     export default {
         name: 'loading',
         data() {
@@ -25,6 +27,16 @@
         height: 100vh;
         width: 100%;
         background-color: #091833;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-flow: column;
+
+
+        img{
+            height: 150px;
+            width: 150px;
+        }
     }
 
 
