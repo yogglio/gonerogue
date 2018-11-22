@@ -5,9 +5,9 @@
       <h1 class="header">GONE ROGUE</h1>
       <h3 id="t1" class="title">HOW ROGUE ARE YOU?</h3>
       <div class="levels">
-        <div class="icon" v-for="(r,i) in ratings" v-on:click="toggle(i)">
-            <img v-if="r.selected" v-bind:src="r.enabled">
-            <img v-else v-bind:src="r.disabled">
+        <div class="icon" v-for="(r,i) in ratings">
+            <img class="enabled" v-show="r.selected" v-bind:src="r.enabled" v-on:click="toggle(i)">
+            <img class="disabled" v-show="!r.selected" v-bind:src="r.disabled" v-on:click="toggle(i)">
         </div>
       </div>
       <h3 id="t2" class="title">WHAT IS YOUR NEXT STEP?</h3>
@@ -138,9 +138,14 @@ export default {
             color: white;
             cursor: pointer;
 
-            img {
+            .enabled {
                 width: 100%;
                 height: 100%;
+            }
+
+            .disabled {
+                width: 80%;
+                height: 80%;
             }
         }
     }

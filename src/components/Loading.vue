@@ -1,7 +1,7 @@
 <template>
     <div class="loading">
-        <!--<img src="../assets/logo.svg">-->
-
+        <img src="logo.svg">
+        <h3>GONE ROGUE</h3>
     </div>
 </template>
 
