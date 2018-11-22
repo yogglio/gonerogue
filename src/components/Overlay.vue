@@ -1,14 +1,17 @@
 <template>
     <div class="overlay">
-        <div class="text">No place matching your preference</div>
-        <div class="overlay-btn" v-on:click="$emit('openPreferences')">CHANGE PREFERNCES</div>
+        <div class="text">{{text.msg}}</div>
+        <div class="overlay-btn" v-on:click="$emit('openPreferences')">{{text.btn}}</div>
     </div>
     
 </template>
 
 <script>
     export default {
-        name: "overlay"
+        name: "overlay",
+        props: {
+            text: Object
+        },
     }
 </script>
 
