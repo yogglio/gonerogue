@@ -200,6 +200,10 @@ export default {
         }
     }
 
+    .selected {
+        background-color: $accent_color_two;
+    }
+
     }
 
 </style>
