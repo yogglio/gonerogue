@@ -1,10 +1,17 @@
 <template>
     <div class="overview">
-    <div class="icon1"></div>
-    <div class="icon2"></div>
-    <div class="icon3"></div>
-    <div class = "close" v-on:click="$emit('closeoverview')"></div>
+        <h3 class="title">Amount of visited places</h3>
+            <div class="one">
+                <div v-for="place in one" class="icon1"></div>
+            </div>
+            <div class="two">
+                <div v-for="place in two" class="icon2"></div>
+            </div>
+            <div class="three" >
+                <div v-for="place in three" class="icon3"></div>
+            </div>
 
+        <div class = "close" v-on:click="$emit('closeOverview')"></div>
 
     </div>
 
@@ -15,12 +22,21 @@
         name: 'overview',
         data: function(){
             return {
-
+                one: [],
+                two: [],
+                three: []
             }
         },
         methods: {
         },
         mounted (){
+            if (localStorage.getItem("visitedPlaces") != null) {
+                let places = JSON.parse(localStorage.getItem("visitedPlaces"));
+
+                this.one = places.filter((place) => place.fields.rating === 1 );
+                this.two = places.filter((place) => place.fields.rating === 2 );
+                this.three = places.filter((place) => place.fields.rating === 3 );
+            }
         }
     }
 </script>
@@ -34,60 +50,83 @@
         top: 0;
         left: 0;
         display: grid;
-        grid-template-columns: 100%;
-        grid-template-rows: 10% 20% 40% 20% 5% 5%;
+        grid-template-columns: 1fr 1fr 1fr;
+        grid-template-rows: 10% 1fr 10%;
+        grid-template-areas:
+            "header header header"
+            "one two three"
+            "bottom bottom bottom";
 
-    }
-    .icon1 {
-        background-image: url("../assets/level1.svg");
-        background-repeat: no-repeat;
-        width: 60px;
-        height: 60px;
-        display: absolute;
-        justify-self: flex; 
-        align-self: center;
-        position: absolute;
-        left: 30px;
-        top: 100px;
-    }
-    .icon2 {
-        background-image: url("../assets/level2.svg");
-        background-repeat: no-repeat;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-self: center; 
-        align-self: center;
-        position: absolute;
-        top: 100px;
-    }
-    .icon3 {
-        background-image: url("../assets/level3.svg");
-        background-repeat: no-repeat;
-        width: 60px;
-        height: 60px;
-        display: flex;
-        justify-self: center; 
-        align-self: center;
-        position: absolute;
-        top: 100px;
-        right: 30px;
-    }
+        .title {
+            grid-area: header;
+        }
+
+        $width:60px;
+        $height:60px;
+
+        .one{
+            grid-area: one;
+            display: flex;
+            align-items: start;
+            flex-wrap: wrap;
+            align-content: flex-start;
+
+            .icon1 {
+                background-image: url("../assets/level1.svg");
+                background-repeat: no-repeat;
+                width: $width;
+                height: $height;
+            }
+        }
+
+        .two{
+            grid-area: two;
+            display: flex;
+            align-items: start;
+            flex-wrap: wrap;
+            align-content: flex-start;
+
+            .icon2 {
+                background-image: url("../assets/level2.svg");
+                background-repeat: no-repeat;
+                width: $width;
+                height: $height;
+            }
+
+        }
+
+        .three {
+            grid-area: three;
+            display: flex;
+            align-items: start;
+            flex-wrap: wrap;
+            align-content: flex-start;
+
+            .icon3 {
+                background-image: url("../assets/level3.svg");
+                background-repeat: no-repeat;
+                width: $width;
+                height: $height;
+
+            }
+        }
+
+
+
+
      .close {
         background-image: url("../assets/delete.svg");
+        background-repeat: no-repeat;
         width: 40px;
         height: 40px;
         display: flex;
-        position: absolute;
-        bottom: 20px;
-        left: calc(50% - 20px);
-        display: flex;
         justify-self: center; 
         align-self: center;
+         grid-area: bottom;
 
     }
-    
-       
+
+    }
 
 
 

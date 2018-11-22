@@ -7,7 +7,7 @@
             <div class="back-btn" @click="openPrefernces"></div>
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay" v-bind:text="text"></overlay>
         </div>
-        <overview v-on:closeOverview="showOverview = false" class="button" v-if="showOverview"></overview>
+        <overview v-on:closeOverview="showOverview = false" v-if="showOverview"></overview>
         <infowindow v-on:skip="skipPlace" v-on:closeInfowindow="closeInfoWindow" v-if="showInfowindow" v-bind:place="place"></infowindow>
     </div>
 </template>
