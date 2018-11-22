@@ -75,12 +75,12 @@
     }
      .close {
         background-image: url("../assets/delete.svg");
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         display: flex;
         position: absolute;
-        bottom: 20px;
-        left: calc(50% - 20px);
+        bottom: 16px;
+        left: calc(50% - 25px);
         display: flex;
         justify-self: center; 
         align-self: center;
