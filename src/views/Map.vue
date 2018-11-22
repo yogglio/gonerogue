@@ -3,10 +3,11 @@
         <loading v-if="loading"></loading>
         <div v-show="!loading" class="places">
             <div id="map"></div>
-            <div class="button" @click="openPrefernces"></div>
+            <div class="button" @click="showOverview = true"></div>
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
             <div class="back-btn" @click="openPrefernces"></div>
         </div>
+        <overview class="button" v-if="showOverview"></overview>
         <infowindow v-on:skip="skipPlace" v-on:closeInfowindow="closeInfoWindow" v-if="showInfowindow" v-bind:place="place"></infowindow>
     </div>
 </template>
@@ -18,17 +19,19 @@
     import Loading from "../components/Loading";
     import Infowindow from "../components/Infowindow";
     import Overlay from "../components/Overlay";
+    import Overview from "../components/Overview";
 
     let id;
 
     export default {
         name: 'mapView',
-        components: {Overlay, Infowindow, Loading},
+        components: {Overlay, Infowindow, Loading,Overview},
         data() {
             return {
                 places: [],
                 showOverlay: false,
                 showInfowindow: false,
+                showOverview: false,
                 loading: true,
                 place: null
             }
