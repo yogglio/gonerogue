@@ -177,10 +177,10 @@
 
                     let markerIcon = {
                         url: markerlevel,
-                        size: new google.maps.Size(100, 200),
-                        //origin: new google.maps.Point(50, 50),
-                        anchor: new google.maps.Point(0, 100),
-                        //scaledSize: new google.maps.Size(75, 75)
+                        size: new google.maps.Size(50, 75),
+                        origin: new google.maps.Point(0, 0),
+                        anchor: new google.maps.Point(10, 70),
+                        scaledSize: new google.maps.Size(50, 75)
                     };
 
 
