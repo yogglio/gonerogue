@@ -283,12 +283,16 @@
             left: 0;
         }
         .button {
-            background-color: #4CAF50;
-            color: white;
-            padding: 15px 32px;
-            text-align: center;
-            display: inline-block;
-            font-size: 16px;
+            background-image: url("../assets/logo.svg");
+            position: absolute;
+            bottom: 16px;
+            left: calc(50% - 25px);
+            
+            width: 50px;
+            height: 50px;
+            display: flex;
+            justify-self: center; 
+            align-self: center;
         }
 
         #map {
