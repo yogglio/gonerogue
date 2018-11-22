@@ -3,6 +3,7 @@
         <loading v-if="loading"></loading>
         <div v-show="!loading" class="places">
             <div id="map"></div>
+            <div class="button"></div>
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
             <div class="back-btn" @click="openPrefernces"></div>
         </div>
@@ -281,12 +282,20 @@
             top: 0;
             left: 0;
         }
+        .button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px 32px;
+            text-align: center;
+            display: inline-block;
+            font-size: 16px;
+        }
 
         #map {
             height: 100%;
             width: 100%;
             grid-area: map;
         }
-
+     
     }
 </style>
