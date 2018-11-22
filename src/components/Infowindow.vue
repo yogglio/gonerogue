@@ -8,7 +8,7 @@
         <div class ="image"> <img v-bind:src=place.fields.photos[0].fields.file.url /> </div>
 
         <div class ="description">{{place.fields.description}}</div>
-        <div v-on:click="$emit('closeInfowindow')">close</div>
+        <div class = "close" v-on:click="$emit('closeInfowindow')"></div>
     </div>
 </template>
 
@@ -78,7 +78,15 @@
     .description {
         color: white;
     }
+    .close {
+        background-image: url("../assets/delete.svg");
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-self: center; 
+        align-self: center;
 
+    }
    
 
 
