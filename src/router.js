@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import Preferences from './views/Preferences.vue'
+import Start from './views/Start.vue'
 
 Vue.use(Router)
 
@@ -8,16 +8,24 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'categories',
-      component: Preferences
+      name: 'start',
+      component: Start
     },
      {
-         path: '/map',
-         name: 'mapView',
+         path: '/preferences',
+         name: 'preferences',
+          // route level code-splitting
+          // this generates a separate chunk (about.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import(/* webpackChunkName: "preferences" */ './views/Preferences.vue')
+     },
+      {
+          path: '/map',
+          name: 'mapView',
           // route level code-splitting
           // this generates a separate chunk (about.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () => import(/* webpackChunkName: "map" */ './views/Map.vue')
-     }
+      }
   ]
 })

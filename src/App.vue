@@ -34,9 +34,6 @@
   color: $accent_color_one;
   background-color: $background;
   min-height: 100vh;
-  p {
-    font-family: 'Open Sans', sans-serif;
-  }
 }
 
 

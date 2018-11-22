@@ -12,7 +12,6 @@
 
 <script>
     // @ is an alias to /src
-    import SnazzyInfoWindow from 'snazzy-info-window'
     import {cyberstyle} from '@/style.js';
     import shared from '@/shared.js';
     import Loading from "../components/Loading";
@@ -195,16 +194,6 @@
                         console.log("show")
                     });
 
-
-                    /*              new SnazzyInfoWindow({
-                                      marker: marker,
-                                      content:'<h1>'+place.fields.name+'</h1>'+
-                                          '<p>'+place.fields.description+'</p>'+
-                                          '<p>Time spent: '+place.fields.time+'</p>'+
-                                          '<p>Rogue rating: '+place.fields.rating+'</p>' +
-                                          '<img src="'+ place.fields.photos[0].fields.file.url+'" height="100px" width="100px" />'
-
-                                  });*/
                     return place;
                 });
                 return promise;
@@ -258,7 +247,7 @@
                 infoWindow.open(map);
             },
             openPrefernces() {
-                this.$router.push('/');
+                this.$router.push('/preferences');
             }
         },
         mounted() {

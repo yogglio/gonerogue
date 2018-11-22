@@ -20,7 +20,7 @@
           </ul>
       </div>
       <div class="bottom">
-          <div class="go-btn" @click="openMap">GO ROGUE</div>
+          <div class="go-btn" @click="openMap">GO</div>
       </div>
   </div>
   </div>
@@ -30,7 +30,7 @@
     import shared from '@/shared.js';
     import Loading from "../components/Loading";
 export default {
-  name: 'categories',
+  name: 'preferences',
     components: {Loading},
     data() {
       return {
