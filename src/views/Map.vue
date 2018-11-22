@@ -2,12 +2,11 @@
     <div>
         <loading v-if="loading"></loading>
         <div v-show="!loading" class="places">
-            <div class="back-btn" @click="openPrefernces">&lt;</div>
             <div id="map"></div>
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
+            <div class="back-btn" @click="openPrefernces"></div>
         </div>
-        <infowindow v-on:closeInfowindow="showInfowindow = false" v-if="showInfowindow"
-                    v-bind:place="place"></infowindow>
+        <infowindow v-on:closeInfowindow="showInfowindow = false" v-if="showInfowindow" v-bind:place="place"></infowindow>
     </div>
 </template>
 
@@ -97,7 +96,7 @@
                             //strokeColor: '#3BACAA'
                         });
                         circle.bindTo('center', userMarker, 'position');
-                        if (selectedCategory != null) {
+                        if (selectedCategory != null && selectedRating != null) {
                             this.findPlace(startPos, selectedCategory, selectedRating).then((place) => {
                                 id = navigator.geolocation.watchPosition((position) => {
                                     let updatedPos = {
@@ -169,19 +168,19 @@
 
                     let markerlevel;
                     if (place.fields.rating === 1) {
-                        markerlevel = require('../assets/markerlevel1.svg')
+                        markerlevel = require('../assets/marker1.svg')
                     } else if(place.fields.rating === 2) {
-                        markerlevel = require('../assets/markerlevel2.svg')
+                        markerlevel = require('../assets/marker2.svg')
                     } else if(place.fields.rating === 3){
-                        markerlevel = require('../assets/markerlevel3.svg')
+                        markerlevel = require('../assets/marker3.svg')
                     }
 
                     let markerIcon = {
                         url: markerlevel,
-                        //size: new google.maps.Size(71, 71),
-                        origin: new google.maps.Point(0, 0),
-                        anchor: new google.maps.Point(0, 0),
-                        scaledSize: new google.maps.Size(75, 75)
+                        size: new google.maps.Size(100, 200),
+                        //origin: new google.maps.Point(50, 50),
+                        anchor: new google.maps.Point(0, 100),
+                        //scaledSize: new google.maps.Size(75, 75)
                     };
 
 
@@ -278,23 +277,26 @@
 
     .places {
         display: grid;
-        grid-template-rows: max-content 1fr;
+        grid-template-rows: 1fr;
         grid-template-columns: 100%;
         min-height: 100vh;
-        grid-template-areas: "header" "map";
+        grid-template-areas: "map";
 
         .back-btn {
-            color: $accent_color_one;
-            height: 40px;
-            font-size: 40px;
-            justify-self: start;
-            padding: 0 20px;
+            background-image: url("../assets/backarrow.svg");
+            height: 25px;
+            width: 25px;
             cursor: pointer;
+            position: absolute;
+            margin: 10px;
+            top: 0;
+            left: 0;
         }
 
         #map {
             height: 100%;
             width: 100%;
+            grid-area: map;
         }
 
     }
