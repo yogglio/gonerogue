@@ -42,10 +42,10 @@
 
                 // custom Icon setup
                 let icon = {
-                    url: require('../assets/dot.png'),
-                    scaledSize: new google.maps.Size(10, 10),
+                    url: require('../assets/location.svg'),
+                    scaledSize: new google.maps.Size(50, 50),
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(5, 5)
+                    anchor: new google.maps.Point(25, 25)
                 };
 
                 // get the selected preferences
@@ -92,7 +92,8 @@
                             map: this.map,
                             radius: position.coords.accuracy,
                             fillColor: '#89858c',
-                            strokeWeight: 0
+                            strokeWeight: 1,
+                            strokeColor: '#3BACAA'
                         });
                         circle.bindTo('center', userMarker, 'position');
                         if (selectedCategory != null) {
