@@ -66,7 +66,7 @@
                 let directionsService = new google.maps.DirectionsService;
                 let directionsDisplay = new google.maps.DirectionsRenderer({
                     polylineOptions: {
-                        strokeColor: "#ff2efc",
+                        strokeColor: "#ea00d9",
                         strokeWeight: 5
                     }, suppressMarkers: true
                 });
