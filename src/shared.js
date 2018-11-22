@@ -3,17 +3,20 @@ export default {
             {
                 rating: 1,
                 selected: true,
-                path: require("@/assets/level1.svg")
+                enabled: require("@/assets/level1.svg"),
+                disabled: require("@/assets/level1_transparent.svg")
             },
             {
                 rating: 2,
                 selected: true,
-                path: require("@/assets/level2.svg")
+                enabled: require("@/assets/level2.svg"),
+                disabled: require("@/assets/level2_transparent.svg")
             },
             {
                 rating: 3,
                 selected: true,
-                path: require("@/assets/level3.svg")
+                enabled: require("@/assets/level3.svg"),
+                disabled: require("@/assets/level3_transparent.svg")
             }
         ],
         categories:[]
