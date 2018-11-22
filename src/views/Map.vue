@@ -43,9 +43,9 @@
                 // custom Icon setup
                 let icon = {
                     url: require('../assets/location.svg'),
-                    scaledSize: new google.maps.Size(50, 50),
+                    scaledSize: new google.maps.Size(10, 10),
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(25, 25)
+                    anchor: new google.maps.Point(5, 5)
                 };
 
                 // get the selected preferences
@@ -88,12 +88,13 @@
                             map: this.map,
                             icon: icon
                         });
+
                         let circle = new google.maps.Circle({
                             map: this.map,
                             radius: position.coords.accuracy,
                             fillColor: '#89858c',
-                            strokeWeight: 1,
-                            strokeColor: '#3BACAA'
+                            strokeWeight: 0
+                            //strokeColor: '#3BACAA'
                         });
                         circle.bindTo('center', userMarker, 'position');
                         if (selectedCategory != null) {
@@ -259,12 +260,6 @@
             },
             openPrefernces() {
                 this.$router.push('/');
-            },
-            openInfowindow(marker, place) {
-                this.place = place;
-                marker.addListener('click', function () {
-                    this.showInfowindow = true;
-                });
             }
         },
         mounted() {
