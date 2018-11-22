@@ -10,13 +10,13 @@ export default {
                 rating: 2,
                 selected: true,
                 enabled: require("@/assets/level2.svg"),
-                disabled: require("@/assets/level2_transparent.svg")
+                //disabled: require("@/assets/level2_transparent.svg")
             },
             {
                 rating: 3,
                 selected: true,
                 enabled: require("@/assets/level3.svg"),
-                disabled: require("@/assets/level3_transparent.svg")
+                //disabled: require("@/assets/level3_transparent.svg")
             }
         ],
         categories:[]
