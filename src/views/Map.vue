@@ -3,7 +3,7 @@
         <loading v-if="loading"></loading>
         <div v-show="!loading" class="places">
             <div id="map"></div>
-            <div class="button"></div>
+            <div class="button" @click="openPrefernces"></div>
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
             <div class="back-btn" @click="openPrefernces"></div>
         </div>
