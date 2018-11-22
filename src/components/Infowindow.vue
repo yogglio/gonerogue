@@ -47,7 +47,7 @@
         position: absolute;
         width: 100%;
         height: 100vh;
-        background-color: rgba(29, 31, 54, 0.8);
+        background-color: rgba(29, 31, 54, 0.5);
         top: 0;
         left: 0;
         display: grid;
@@ -56,7 +56,7 @@
      .name {
          color: white;
          background-color: $background-title;
-         border: 10px solid white;
+         border: 3px solid rgba(255, 255,255,0.7);
          border-radius: 3px;
 }   
     .image {
@@ -75,6 +75,10 @@
         justify-self: center; 
         align-self: center;
     }
+    .description {
+        color: white;
+    }
+
    
 
 
