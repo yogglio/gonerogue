@@ -6,7 +6,7 @@
             <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
             <div class="back-btn" @click="openPrefernces"></div>
         </div>
-        <infowindow v-on:closeInfowindow="showInfowindow = false" v-if="showInfowindow" v-bind:place="place"></infowindow>
+        <infowindow v-on:skip="skipPlace" v-on:closeInfowindow="closeInfoWindow" v-if="showInfowindow" v-bind:place="place"></infowindow>
     </div>
 </template>
 
@@ -35,6 +35,7 @@
         methods: {
             initMap() {
                 console.log("initMap");
+
                 let startPos;
                 let userMarker;
 
@@ -49,6 +50,9 @@
                 // get the selected preferences
                 let selectedRating = shared.ratings.filter(obj => obj.selected === true);
                 let selectedCategory = shared.categories.find(obj => obj.fields.selected === true);
+
+                console.log(selectedRating);
+                console.log(selectedCategory);
 
                 // init map
                 const element = document.getElementById("map");
@@ -142,10 +146,6 @@
                 }).then((entries) => {
                     this.places = entries.items;
                     let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
-                    if (this.places.length === 0) {
-                        this.showOverlay = true;
-                        return;
-                    }
                     let place;
                     if (visitedPlaces == null || visitedPlaces.length === 0) {
                         place = this.places[0];
@@ -161,6 +161,10 @@
                                 return el;
                             }
                         })
+                    }
+                    if (place == null) {
+                        this.showOverlay = true;
+                        return;
                     }
 
                     this.place = place;
@@ -226,17 +230,7 @@
                 //console.log(place);
                 if (direction.routes[0].legs[0].distance.value < 20) {
                     console.log("arrived");
-                    if (sessionStorage.getItem("visitedPlaces") === null) {
-                        let visitedPlaces = [];
-                        visitedPlaces.push(place);
-                        sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
-                        //console.log(visitedPlaces)
-                    } else {
-                        let visitedPlaces = sessionStorage.getItem("visitedPlaces");
-                        visitedPlaces.push(place);
-                        sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
-                        //console.log(visitedPlaces)
-                    }
+                    this.addToVisitedPlaces(place);
                 }
             },
             handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -248,6 +242,29 @@
             },
             openPrefernces() {
                 this.$router.push('/preferences');
+            },
+            addToVisitedPlaces(place){
+                if (sessionStorage.getItem("visitedPlaces") === null) {
+                    let visitedPlaces = [];
+                    visitedPlaces.push(place);
+                    sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                    //console.log(visitedPlaces)
+                } else {
+                    let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
+                    visitedPlaces.push(place);
+                    sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                    //console.log(visitedPlaces)
+                }
+            },
+            skipPlace() {
+                this.closeInfoWindow();
+                this.addToVisitedPlaces(this.place);
+                console.log("skip");
+                navigator.geolocation.clearWatch(id);
+                this.initMap();
+            },
+            closeInfoWindow(){
+                this.showInfowindow = false;
             }
         },
         mounted() {

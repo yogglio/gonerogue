@@ -8,6 +8,7 @@
         <div class ="image"> <img v-bind:src=place.fields.photos[0].fields.file.url /> </div>
 
         <div class ="description">{{place.fields.description}}</div>
+        <div class="skip-btn" v-on:click="$emit('skip')">SKIP</div>
         <div class = "close" v-on:click="$emit('closeInfowindow')"></div>
     </div>
 </template>
@@ -52,7 +53,7 @@
         left: 0;
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 10% 20% 40% 20% 10%;
+        grid-template-rows: 10% 20% 40% 20% 5% 5%;
      .name {
          color: white;
          background-color: $background-title;
@@ -87,7 +88,14 @@
         align-self: center;
 
     }
-   
+
+     .skip-btn {
+         width: 40px;
+         height: 40px;
+         display: flex;
+         justify-self: center;
+         align-self: center;
+     }
 
 
 

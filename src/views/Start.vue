@@ -22,7 +22,7 @@
         methods: {
                 showTutorial(){
                     this.animation = false;
-                    this.showText(50)
+                    this.showText(70)
                 },
                 showText(speed){
                     let i = 0;
@@ -65,8 +65,7 @@
         min-height: 100vh;
 
         img {
-            grid-row: 1/1;
-            width: 100%;
+            height: 100vh;
         }
 
         .text {

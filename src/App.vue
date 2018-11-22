@@ -1,12 +1,6 @@
 <template>
   <div id="app">
-    <!--<div id="nav">
-      <router-link to="/">Preferences</router-link> |
-      <router-link to="/map">Map</router-link>
-    </div>-->
-    <!--<keep-alive include="categories">-->
         <router-view/>
-    <!--</keep-alive>-->
   </div>
 </template>
 
@@ -35,10 +29,4 @@
   background-color: $background;
   min-height: 100vh;
 }
-
-
-
-#nav {
-    font-size: 8px;
-  }
 </style>
