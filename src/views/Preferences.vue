@@ -126,11 +126,12 @@ export default {
         grid-template-columns: repeat(auto-fit, minmax(80px,1fr));
         align-self: center;
         margin: 10px 0;
+        justify-items: center;
 
 
         .icon {
-            height: 50px;
-            width: 50px;
+            height: 60px;
+            width: 60px;
             display: flex;
             justify-content: center;
             align-items: center;
