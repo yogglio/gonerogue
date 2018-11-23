@@ -22,7 +22,7 @@
         methods: {
                 showTutorial(){
                     this.animation = false;
-                    this.showText(70)
+                    this.showText(50)
                 },
                 showText(speed){
                     let i = 0;
@@ -48,7 +48,7 @@
                 }
         },
         mounted(){
-            setTimeout(this.showTutorial, 2500)
+            setTimeout(this.showTutorial, 3000)
         }
     }
 </script>

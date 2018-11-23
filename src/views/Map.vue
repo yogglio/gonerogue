@@ -4,10 +4,10 @@
         <div v-show="!loading" class="places">
             <div id="map"></div>
             <div class="button" @click="showOverview = true"></div>
-            <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay"></overlay>
             <div class="back-btn" @click="openPrefernces"></div>
+            <overlay v-on:openPreferences="openPrefernces" v-if="showOverlay" v-bind:text="text"></overlay>
         </div>
-        <overview class="button" v-if="showOverview"></overview>
+        <overview v-on:closeOverview="showOverview = false" v-if="showOverview"></overview>
         <infowindow v-on:skip="skipPlace" v-on:closeInfowindow="closeInfoWindow" v-if="showInfowindow" v-bind:place="place"></infowindow>
     </div>
 </template>
@@ -33,7 +33,11 @@
                 showInfowindow: false,
                 showOverview: false,
                 loading: true,
-                place: null
+                place: null,
+                text:{
+                    msg:"",
+                    btn: ""
+                }
             }
         },
         methods: {
@@ -149,25 +153,25 @@
                     'fields.location[near]': pos.lat + "," + pos.lng
                 }).then((entries) => {
                     this.places = entries.items;
-                    let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
+                    let skippedPlaces = JSON.parse(sessionStorage.getItem("skippedPlaces"));
                     let place;
-                    if (visitedPlaces == null || visitedPlaces.length === 0) {
+                    if (skippedPlaces == null || skippedPlaces.length === 0) {
                         place = this.places[0];
                     } else {
                         place = this.places.find(el => {
-                            let isVisited = false;
-                            for (let vP of visitedPlaces) {
+                            let isSkipped = false;
+                            for (let vP of skippedPlaces) {
                                 if (el.sys.id === vP.sys.id) {
-                                    isVisited = true;
+                                    isSkipped = true;
                                 }
                             }
-                            if (!isVisited) {
+                            if (!isSkipped) {
                                 return el;
                             }
                         })
                     }
                     if (place == null) {
-                        this.showOverlay = true;
+                        this.openOverlay("No place matching your preference", "CHANGE PREFERNCES");
                         return;
                     }
 
@@ -235,6 +239,8 @@
                 if (direction.routes[0].legs[0].distance.value < 20) {
                     console.log("arrived");
                     this.addToVisitedPlaces(place);
+                    this.addToSkippedPlaces(place);
+                    this.openOverlay("You arrived at your destination","NEXT PLACE");
                 }
             },
             handleLocationError(browserHasGeolocation, infoWindow, pos) {
@@ -247,28 +253,46 @@
             openPrefernces() {
                 this.$router.push('/preferences');
             },
+            addToSkippedPlaces(place){
+                if (sessionStorage.getItem("skippedPlaces") === null) {
+                    let skippedPlaces = [];
+                    skippedPlaces.push(place);
+                    sessionStorage.setItem("skippedPlaces", JSON.stringify(skippedPlaces));
+                    //console.log(skippedPlaces)
+                } else {
+                    let skippedPlaces = JSON.parse(sessionStorage.getItem("skippedPlaces"));
+                    skippedPlaces.push(place);
+                    sessionStorage.setItem("skippedPlaces", JSON.stringify(skippedPlaces));
+                    //console.log(skippedPlaces)
+                }
+            },
             addToVisitedPlaces(place){
-                if (sessionStorage.getItem("visitedPlaces") === null) {
+                if (localStorage.getItem("visitedPlaces") === null) {
                     let visitedPlaces = [];
                     visitedPlaces.push(place);
-                    sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                    localStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
                     //console.log(visitedPlaces)
                 } else {
-                    let visitedPlaces = JSON.parse(sessionStorage.getItem("visitedPlaces"));
+                    let visitedPlaces = JSON.parse(localStorage.getItem("visitedPlaces"));
                     visitedPlaces.push(place);
-                    sessionStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
+                    localStorage.setItem("visitedPlaces", JSON.stringify(visitedPlaces));
                     //console.log(visitedPlaces)
                 }
             },
             skipPlace() {
                 this.closeInfoWindow();
-                this.addToVisitedPlaces(this.place);
+                this.addToSkippedPlaces(this.place);
                 console.log("skip");
                 navigator.geolocation.clearWatch(id);
                 this.initMap();
             },
             closeInfoWindow(){
                 this.showInfowindow = false;
+            },
+            openOverlay(msg, btn){
+                this.text.msg = msg;
+                this.text.btn = btn;
+                this.showOverlay = true;
             }
         },
         mounted() {

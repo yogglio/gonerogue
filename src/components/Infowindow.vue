@@ -61,12 +61,13 @@
          border-radius: 3px;
 }   
     .image {
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
+        height: auto;
 
         img{
         
-        max-height: 90%;
+        width: 90%;
+        height: 90%;
         }
     }
     .rating {
