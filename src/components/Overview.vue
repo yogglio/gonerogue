@@ -63,6 +63,7 @@
 
         $width:60px;
         $height:60px;
+        $margin:5px;
 
         .one{
             grid-area: one;
@@ -70,12 +71,14 @@
             align-items: start;
             flex-wrap: wrap;
             align-content: flex-start;
+            justify-content: center;
 
             .icon1 {
                 background-image: url("../assets/level1.svg");
                 background-repeat: no-repeat;
                 width: $width;
                 height: $height;
+                margin: $margin;
             }
         }
 
@@ -85,12 +88,14 @@
             align-items: start;
             flex-wrap: wrap;
             align-content: flex-start;
+            justify-content: center;
 
             .icon2 {
                 background-image: url("../assets/level2.svg");
                 background-repeat: no-repeat;
                 width: $width;
                 height: $height;
+                margin: $margin;
             }
 
         }
@@ -101,18 +106,17 @@
             align-items: start;
             flex-wrap: wrap;
             align-content: flex-start;
+            justify-content: center;
 
             .icon3 {
                 background-image: url("../assets/level3.svg");
                 background-repeat: no-repeat;
                 width: $width;
                 height: $height;
+                margin: $margin;
 
             }
         }
-
-
-
 
      .close {
         background-image: url("../assets/delete.svg");

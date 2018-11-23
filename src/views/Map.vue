@@ -50,9 +50,9 @@
                 // custom Icon setup
                 let icon = {
                     url: require('../assets/location.svg'),
-                    scaledSize: new google.maps.Size(10, 10),
+                    scaledSize: new google.maps.Size(14, 14),
                     origin: new google.maps.Point(0, 0),
-                    anchor: new google.maps.Point(5, 5)
+                    anchor: new google.maps.Point(7, 7)
                 };
 
                 // get the selected preferences
@@ -117,7 +117,9 @@
                                     userMarker.setPosition(updatedPos);
                                     circle.setRadius(position.coords.accuracy);
                                     console.log("update position");
-                                    this.calcAndDisplayRoute(directionsService, directionsDisplay, updatedPos, place)
+                                    if (place != null) {
+                                        this.calcAndDisplayRoute(directionsService, directionsDisplay, updatedPos, place)
+                                    }
                                 }, function () {
                                     this.handleLocationError(true, infoWindow, map.getCenter());
                                 });
