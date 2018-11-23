@@ -120,7 +120,7 @@
         width: 40px;
         height: 40px;
         display: flex;
-        justify-self: center; 
+        justify-self: center;
         align-self: center;
          grid-area: bottom;
 

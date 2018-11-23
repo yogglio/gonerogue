@@ -53,7 +53,7 @@
         left: 0;
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 10% 20% 40% 20% 5% 5%;
+        grid-template-rows: 10% 20% 40% 10% 10% 10%;
      .name {
          color: white;
          background-color: $background-title;
@@ -61,10 +61,11 @@
          border-radius: 3px;
 }   
     .image {
-        width: 100%;
-        height: 100%;
+        max-width: 100%;
+        height: auto;
 
         img{
+        
         width: 90%;
         height: 90%;
         }
@@ -81,8 +82,8 @@
     }
     .close {
         background-image: url("../assets/delete.svg");
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
         display: flex;
         justify-self: center; 
         align-self: center;
@@ -90,11 +91,19 @@
     }
 
      .skip-btn {
-         width: 40px;
-         height: 40px;
+         //width: 40px;
+         //height: 40px;
          display: flex;
          justify-self: center;
-         align-self: center;
+         align-self: center;  
+         align-items: center;
+         justify-items: center;
+         border: 2px solid $accent_color_one;
+         background-color: $accent_color_one;
+         color: white;
+         border-radius: 100px;
+         padding: 16px 48px;
+         cursor: pointer;
      }
 
 
