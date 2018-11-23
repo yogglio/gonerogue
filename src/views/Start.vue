@@ -15,8 +15,8 @@
                 text:'',
                 message: "Welcome to the World of Gone Rogue <br>"+
                 "<br>" +
-                "Travel in a new environment by going to places that aren't the 'norm'.<br>" +
-                "Select a Rogue Level to take on a challenge based on your preferences."
+                "Travel in a new environment by going to places that aren't the norm.<br>" +
+                "Select a Rogue Level to take on a journey based on your preferences."
             }
         },
         methods: {

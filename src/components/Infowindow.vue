@@ -59,7 +59,16 @@
          background-color: $background-title;
          border: 3px solid rgba(255, 255,255,0.7);
          border-radius: 3px;
-}   
+         display: flex;
+         justify-content: center;
+         align-content: center;
+
+         h3 {
+             display: flex;
+             align-self: center;
+             justify-self: center;
+         }
+    }   
     .image {
         max-width: 100%;
         height: auto;
@@ -99,7 +108,7 @@
          align-items: center;
          justify-items: center;
          border: 2px solid $accent_color_one;
-         background-color: $accent_color_one;
+         //background-color: $accent_color_one;
          color: white;
          border-radius: 100px;
          padding: 16px 48px;
