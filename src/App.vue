@@ -10,6 +10,19 @@
   @import '../node_modules/snazzy-info-window/dist/snazzy-info-window.scss';
   //@import url('https://fonts.googleapis.com/css?family=Open+Sans|Orbitron');
 
+  *:focus {
+      outline:none;
+      outline: 0;
+  }
+
+  *{
+      -webkit-tap-highlight-color: transparent;
+  }
+
+  textarea:focus, input:focus {
+      outline:none;
+      outline: 0;
+  }
 
   html{
     width: 100%;
