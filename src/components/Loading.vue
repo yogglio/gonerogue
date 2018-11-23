@@ -1,6 +1,6 @@
 <template>
     <div class="loading">
-        <img src="logo.svg">
+        <img src="../assets/loading.gif">
         <h3>GONE ROGUE</h3>
     </div>
 </template>

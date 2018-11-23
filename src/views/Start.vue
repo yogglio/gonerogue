@@ -1,6 +1,6 @@
 <template>
     <div class="start">
-        <img v-if="animation" src="../assets/loading.gif">
+        <img v-if="animation" src="../assets/start.gif">
         <div class="text" v-html="text" v-show="!animation"></div>
         <div v-if="!animation" @click="openPreferences" class="btn">Jakuhl</div>
     </div>
