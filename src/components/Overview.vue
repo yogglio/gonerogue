@@ -1,6 +1,6 @@
 <template>
     <div class="overview">
-        <h3 class="title">Amount of visited places</h3>
+        <h2 class="title">Amount of visited places</h2>
             <div class="one">
                 <div v-for="place in one" class="icon1"></div>
             </div>

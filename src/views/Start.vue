@@ -13,10 +13,10 @@
             return {
                 animation: true,
                 text:'',
-                message: "Welcome to the World of Gone Rogue <br>"+
+                message: "Welcome to the World of Gone Rogue<br>"+
                 "<br>" +
                 "Travel in a new environment by going to places that aren't the norm.<br>" +
-                "Select a Rogue Level to take on a challenge based on your preferences."
+                "Select a Rogue Level to take on a journey based on your preference."
             }
         },
         methods: {
@@ -48,7 +48,7 @@
                 }
         },
         mounted(){
-            setTimeout(this.showTutorial, 2600)
+            setTimeout(this.showTutorial, 2500)
         }
     }
 </script>
