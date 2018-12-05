@@ -15,7 +15,7 @@ app.use(function(req,res,next) {
         console.log("HTTPs call detected, allowed");
         return next();
     }
-};
+});
 
 // serve the index.html as starting page
 app.get('/', function (req, res) {
