@@ -15,5 +15,5 @@ app.get('/', function (req, res) {
 app.use(express.static('dist'));
 
 https.listen(process.env.PORT || 8090, function(){
-    console.log(`listening on *: ${http.address().port}`);
+    console.log(`listening on *: ${https.address().port}`);
 });
