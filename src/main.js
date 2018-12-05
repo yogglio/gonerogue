@@ -2,6 +2,7 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import {createClient} from 'contentful'
+import './registerServiceWorker'
 
 Vue.config.productionTip = false;
 
