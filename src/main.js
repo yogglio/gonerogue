@@ -11,6 +11,15 @@ window.contentfulClient = createClient({
     space: 'cupfip093pb1'
 });
 
+let deferredPrompt;
+
+window.addEventListener('beforeinstallprompt', (e) => {
+    // Prevent Chrome 67 and earlier from automatically showing the prompt
+    e.preventDefault();
+    // Stash the event so it can be triggered later.
+    deferredPrompt = e;
+});
+
 new Vue({
   router,
   render: h => h(App)
