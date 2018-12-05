@@ -10,10 +10,18 @@ let fs = require('fs');
 app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, "dist", "index.html"))
 });
+app.all('*', function(req, res, next){
+    console.log('req start: ',req.secure, req.hostname, req.url, app.get('port'));
+    if (req.secure) {
+        return next();
+    }
+
+    res.redirect('https://'+req.hostname + ':' + app.get('secPort') + req.url);
+});
 
 // serve all files in dist
 app.use(express.static('dist'));
 
-https.listen(process.env.PORT || 8090, function(){
-    console.log(`listening on *: ${https.address().port}`);
+http.listen(process.env.PORT || 8090, function(){
+    console.log(`listening on *: ${http.address().port}`);
 });
