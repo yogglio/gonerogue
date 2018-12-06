@@ -21,7 +21,7 @@ let fs = require('fs');
 app.get('/', function (req, res) {
     if (!req.secure) {
         console.log("HTTP call detected, not allowed");
-        return res.redirect('https://' + req.hostname + req.path);
+        res.redirect('https://' + req.hostname + req.path);
     } else {
         console.log("HTTPs call detected, allowed");
     }
