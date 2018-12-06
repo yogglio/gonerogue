@@ -7,7 +7,7 @@ let serveStatic = require('serve-static');
 let fs = require('fs');
 
 
-app.use(function(req,res,next) {
+/*app.use(function(req,res,next) {
     if (!req.secure) {
         console.log("HTTP call detected, not allowed");
         return res.redirect('https://' + req.hostname + req.path);
@@ -15,10 +15,16 @@ app.use(function(req,res,next) {
         console.log("HTTPs call detected, allowed");
         return next();
     }
-});
+});*/
 
 // serve the index.html as starting page
 app.get('/', function (req, res) {
+    if (!req.secure) {
+        console.log("HTTP call detected, not allowed");
+        return res.redirect('https://' + req.hostname + req.path);
+    } else {
+        console.log("HTTPs call detected, allowed");
+    }
     res.sendFile(path.join(__dirname, "dist", "index.html"))
 });
 
