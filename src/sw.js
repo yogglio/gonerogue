@@ -19,7 +19,7 @@ workbox.routing.registerRoute(
 );
 
 workbox.routing.registerRoute(
-    new RegExp('https://cdn.contentful.com'),
+    new RegExp('https://cdn.contentful.com/*'),
     workbox.strategies.networkFirst({
         cacheName: 'contentful',
     }),
