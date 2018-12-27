@@ -13,6 +13,14 @@ module.exports = {
     pwa: {
         appleMobileWebAppCapable: 'yes',
         appleMobileWebAppStatusBarStyle: 'black',
+
+        // configure the workbox plugin
+        workboxPluginMode: 'InjectManifest',
+        workboxOptions: {
+            // swSrc is required in InjectManifest mode.
+            swSrc: 'src/sw.js',
+            // ...other Workbox options...
+        }
     },
 
     lintOnSave: false

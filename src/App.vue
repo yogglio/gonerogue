@@ -7,8 +7,8 @@
 <style lang="scss">
   @import "../node_modules/normalize-scss";
   @include normalize();
-  @import '../node_modules/snazzy-info-window/dist/snazzy-info-window.scss';
-  //@import url('https://fonts.googleapis.com/css?family=Open+Sans|Orbitron');
+  //@import '../node_modules/snazzy-info-window/dist/snazzy-info-window.scss';
+  @import url('https://fonts.googleapis.com/css?family=Open+Sans|Orbitron');
 
   *:focus {
       outline:none;
