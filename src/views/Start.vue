@@ -1,8 +1,6 @@
 <template>
     <div class="start">
         <video-player v-show="animation"
-                class="video"
-                ref="videoPlayer"
                 :options="playerOptions"
                 @ended="onPlayerEnded()">
         </video-player>
@@ -86,13 +84,6 @@
         align-items: center;
         padding: 0 20px;
         min-height: 100vh;
-
-/*        img {
-            height: 100vh;
-        }*/
-        .video {
-            height: 100vh;
-        }
 
         .text {
             grid-row: 1/1;
