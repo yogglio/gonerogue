@@ -1,28 +1,54 @@
 <template>
     <div class="start">
-        <img v-if="animation" src="../assets/start.gif">
+        <video-player v-show="animation"
+                class="video"
+                ref="videoPlayer"
+                :options="playerOptions"
+                @ended="onPlayerEnded()">
+        </video-player>
         <div class="text" v-html="text" v-show="!animation"></div>
         <div v-if="!animation" @click="openPreferences" class="btn">Jakuhl</div>
     </div>
 </template>
 
 <script>
+    import 'video.js/dist/video-js.css';
+    import { videoPlayer }from 'vue-video-player';
     export default {
         name: "start",
+        components: {videoPlayer},
         data() {
             return {
-                animation: true,
-                text:'',
-                message: "Welcome to the World of Gone Rogue<br>"+
-                "<br>" +
-                "Travel in a new environment by going to places that aren't the norm.<br>" +
-                "Select a Rogue Level to take on a journey based on your preference."
-            }
-        },
+                // videojs options
+                playerOptions: {
+                    height: window.innerHeight,
+                    responsive: true,
+                    autoplay: true,
+                    muted: true,
+                    controls: false,
+                    preload: 'auto',
+                    sources: [{
+                        type: "video/mp4",
+                        // mp4
+                        src: require('../assets/glitch_logo_animation.mp4'),
+                    }]
+                },
+                    animation: true,
+                    text: '',
+                    message: "Welcome to the World of Gone Rogue<br>" +
+                        "<br>" +
+                        "Travel in a new environment by going to places that aren't the norm.<br>" +
+                        "Select a Rogue Level to take on a journey based on your preference."
+                }
+            },
         methods: {
                 showTutorial(){
                     this.animation = false;
                     this.showText(50)
+                },
+                onPlayerEnded() {
+                    this.animation = false;
+                    this.showTutorial();
                 },
                 showText(speed){
                     let i = 0;
@@ -48,7 +74,9 @@
                 }
         },
         mounted(){
-            setTimeout(this.showTutorial, 2500)
+            /*this.$refs.videoRef.play();*/
+
+            //setTimeout(this.showTutorial, 2500)
         }
     }
 </script>
@@ -64,7 +92,10 @@
         padding: 0 20px;
         min-height: 100vh;
 
-        img {
+/*        img {
+            height: 100vh;
+        }*/
+        .video {
             height: 100vh;
         }
 
