@@ -72,11 +72,6 @@
                 openPreferences(){
                     this.$router.push('/preferences');
                 }
-        },
-        mounted(){
-            /*this.$refs.videoRef.play();*/
-
-            //setTimeout(this.showTutorial, 2500)
         }
     }
 </script>
