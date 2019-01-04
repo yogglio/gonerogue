@@ -27,7 +27,7 @@ workbox.routing.registerRoute(
 
 workbox.routing.registerRoute(
     new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
-    workbox.strategies.staleWhileRevalidate({
+    workbox.strategies.cacheFirst({
         cacheName: 'googleapis',
         plugins: [
             new workbox.expiration.Plugin({
