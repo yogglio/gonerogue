@@ -1,6 +1,6 @@
 <template>
     <div class="start">
-        <video-player v-show="animation"
+        <video-player v-if="animation"
                 :options="playerOptions"
                 @ended="onPlayerEnded()">
         </video-player>
