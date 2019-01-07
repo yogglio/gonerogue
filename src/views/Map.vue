@@ -34,6 +34,7 @@
                 showOverview: false,
                 loading: true,
                 place: null,
+                map: null,
                 text:{
                     msg:"",
                     btn: ""
@@ -56,13 +57,8 @@
                 };
 
                 // init accelerometer
-                let accelerometer = new LinearAccelerationSensor({frequency: 60});
-                accelerometer.addEventListener('reading', e => {
-                    console.log("Acceleration along the X-axis " + accelerometer.x);
-                    console.log("Acceleration along the Y-axis " + accelerometer.y);
-                    console.log("Acceleration along the Z-axis " + accelerometer.z);
-                });
-                accelerometer.start();
+                this.accelerometer = this.initAccelerometer();
+                this.accelerometer.start();
 
                 // get the selected preferences
                 let selectedRating = shared.ratings.filter(obj => obj.selected === true);
@@ -304,6 +300,15 @@
                 this.text.msg = msg;
                 this.text.btn = btn;
                 this.showOverlay = true;
+            },
+            initAccelerometer(){
+                let accelerometer = new LinearAccelerationSensor({frequency: 60});
+                accelerometer.addEventListener('reading', e => {
+                    console.log("Acceleration along the X-axis " + accelerometer.x);
+                    console.log("Acceleration along the Y-axis " + accelerometer.y);
+                    console.log("Acceleration along the Z-axis " + accelerometer.z);
+                });
+                return accelerometer;
             },
             detectShake(){
 
