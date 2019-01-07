@@ -55,6 +55,15 @@
                     anchor: new google.maps.Point(7, 7)
                 };
 
+                // init accelerometer
+                let accelerometer = new LinearAccelerationSensor({frequency: 60});
+                accelerometer.addEventListener('reading', e => {
+                    console.log("Acceleration along the X-axis " + accelerometer.x);
+                    console.log("Acceleration along the Y-axis " + accelerometer.y);
+                    console.log("Acceleration along the Z-axis " + accelerometer.z);
+                });
+                accelerometer.start();
+
                 // get the selected preferences
                 let selectedRating = shared.ratings.filter(obj => obj.selected === true);
                 let selectedCategory = shared.categories.find(obj => obj.fields.selected === true);
@@ -295,6 +304,9 @@
                 this.text.msg = msg;
                 this.text.btn = btn;
                 this.showOverlay = true;
+            },
+            detectShake(){
+
             }
         },
         mounted() {
