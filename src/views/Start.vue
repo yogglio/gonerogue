@@ -84,6 +84,7 @@
         align-items: center;
         padding: 0 20px;
         min-height: 100vh;
+        overflow: hidden;
 
         .text {
             grid-row: 1/1;
