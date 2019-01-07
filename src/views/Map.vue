@@ -304,10 +304,15 @@
             initAccelerometer(){
                 let accelerometer = new LinearAccelerationSensor({frequency: 60});
                 accelerometer.addEventListener('reading', e => {
-                    console.log("Acceleration along the X-axis " + accelerometer.x);
+                    this.detectShake();
+                    console.log(e);
+                    /*console.log("Acceleration along the X-axis " + accelerometer.x);
                     console.log("Acceleration along the Y-axis " + accelerometer.y);
-                    console.log("Acceleration along the Z-axis " + accelerometer.z);
+                    console.log("Acceleration along the Z-axis " + accelerometer.z);*/
                 });
+                accelerometer.addEventListener('error', e => {
+                    console.log("Cannot fetch data from sensor due to an error." + e)
+                };
                 return accelerometer;
             },
             detectShake(){
