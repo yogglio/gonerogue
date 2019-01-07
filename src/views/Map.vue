@@ -312,7 +312,7 @@
                 });
                 accelerometer.addEventListener('error', e => {
                     console.log("Cannot fetch data from sensor due to an error." + e)
-                };
+                });
                 return accelerometer;
             },
             detectShake(){
