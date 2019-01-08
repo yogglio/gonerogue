@@ -6,7 +6,7 @@
                 @ended="onPlayerEnded()">
         </video-player>
         <div class="text" v-html="text" v-show="!animation"></div>
-        <div v-if="!animation" @click="openPreferences" class="btn">JAKUHL</div>
+        <div v-if="!animation" @click="openPreferences" class="btn">Jakuhl</div>
     </div>
 </template>
 
