@@ -34,8 +34,6 @@
                 showOverview: false,
                 loading: true,
                 place: null,
-                map: null,
-                accelerometer: null,
                 text:{
                     msg:"",
                     btn: ""
