@@ -48,7 +48,7 @@
         position: absolute;
         width: 100%;
         height: 100vh;
-        background-color: rgba(29, 31, 54, 0.7);
+        background-color: rgba(29, 31, 54, 0.9);
         top: 0;
         left: 0;
         display: grid;

@@ -35,6 +35,8 @@
                 loading: true,
                 place: null,
                 map: null,
+                accelerometer: null,
+                shaking: false,
                 text:{
                     msg:"",
                     btn: ""
@@ -55,10 +57,6 @@
                     origin: new google.maps.Point(0, 0),
                     anchor: new google.maps.Point(7, 7)
                 };
-
-                // init accelerometer
-                this.accelerometer = this.initAccelerometer();
-                this.accelerometer.start();
 
                 // get the selected preferences
                 let selectedRating = shared.ratings.filter(obj => obj.selected === true);
@@ -210,6 +208,7 @@
 
                     marker.addListener('click', () => {
                         this.showInfowindow = true;
+                        this.accelerometer.start();
                         console.log("show")
                     });
 
@@ -295,6 +294,7 @@
             },
             closeInfoWindow(){
                 this.showInfowindow = false;
+                this.accelerometer.stop();
             },
             openOverlay(msg, btn){
                 this.text.msg = msg;
@@ -303,9 +303,8 @@
             },
             initAccelerometer(){
                 let accelerometer = new LinearAccelerationSensor({frequency: 60});
-                accelerometer.addEventListener('reading', e => {
-                    this.detectShake();
-                    console.log(e);
+                accelerometer.addEventListener('reading', () => {
+                    this.detectShake(accelerometer);
                     /*console.log("Acceleration along the X-axis " + accelerometer.x);
                     console.log("Acceleration along the Y-axis " + accelerometer.y);
                     console.log("Acceleration along the Z-axis " + accelerometer.z);*/
@@ -315,11 +314,22 @@
                 });
                 return accelerometer;
             },
-            detectShake(){
-
+            detectShake(accelerometer){
+                const shakeThreshold = 3 * 9.8;
+                const stillThreshold = 1;
+                let magnitude = Math.hypot(accelerometer.x, accelerometer.y, accelerometer.z);
+                if (magnitude > shakeThreshold) {
+                    console.log("shaking" + magnitude + " > " + shakeThreshold);
+                    this.shaking = true;
+                    this.skipPlace();
+                } else if (magnitude < stillThreshold && shakeThreshold) {
+                    this.shaking = false;
+                }
             }
         },
         mounted() {
+            // init accelerometer
+            this.accelerometer = this.initAccelerometer();
             this.initMap();
         },
         destroyed() {
