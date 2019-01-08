@@ -57,7 +57,7 @@
      .name {
          color: white;
          background-color: $background-title;
-         border: 3px solid rgba(255, 255,255,0.7);
+         border: 3px solid rgba(255, 255,255,0.8);
          border-radius: 3px;
          display: flex;
          justify-content: center;
