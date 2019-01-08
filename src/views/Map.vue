@@ -36,7 +36,6 @@
                 place: null,
                 map: null,
                 accelerometer: null,
-                shaking: false,
                 text:{
                     msg:"",
                     btn: ""
@@ -319,11 +318,8 @@
                 const stillThreshold = 1;
                 let magnitude = Math.hypot(accelerometer.x, accelerometer.y, accelerometer.z);
                 if (magnitude > shakeThreshold) {
-                    console.log("shaking" + magnitude + " > " + shakeThreshold);
-                    this.shaking = true;
+                    console.log("shaking " + magnitude + " > " + shakeThreshold);
                     this.skipPlace();
-                } else if (magnitude < stillThreshold && shakeThreshold) {
-                    this.shaking = false;
                 }
             }
         },

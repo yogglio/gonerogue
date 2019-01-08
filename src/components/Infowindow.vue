@@ -29,7 +29,7 @@
         methods: {
         },
         mounted (){
-            console.log(this.place.fields.rating)
+            console.log(this.place.fields.rating);
             if (this.place.fields.rating===1){
                 this.rating=require("../assets/level1.svg")
             }
