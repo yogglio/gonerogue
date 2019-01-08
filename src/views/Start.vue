@@ -2,6 +2,7 @@
     <div class="start">
         <video-player v-if="animation"
                 :options="playerOptions"
+                :playsinline="true"
                 @ended="onPlayerEnded()">
         </video-player>
         <div class="text" v-html="text" v-show="!animation"></div>
