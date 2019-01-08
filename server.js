@@ -5,6 +5,9 @@ let https = require('https').Server(app);
 let path = require('path');
 let serveStatic = require('serve-static');
 let fs = require('fs');
+const compression = require('compression');
+
+app.use(compression());
 
 
 app.use(function(req,res,next) {
