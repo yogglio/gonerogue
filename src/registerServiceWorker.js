@@ -12,6 +12,7 @@ if (process.env.NODE_ENV === 'production') {
     },
     registered () {
       console.log('Service worker has been registered.')
+      self.showNotification('Hello world!');
     },
     cached () {
       console.log('Content has been cached for offline use.')

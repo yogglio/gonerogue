@@ -20,6 +20,11 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
 });
 
+Notification.requestPermission(function(status) {
+    console.log('Notification permission status:', status);
+});
+
+
 new Vue({
   router,
   render: h => h(App)
