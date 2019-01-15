@@ -3,7 +3,6 @@ workbox.setConfig({
 });
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);
-/*workbox.precaching.precacheAndRoute([]);*/
 
 workbox.routing.registerRoute(
     /\.(?:png|gif|jpg|jpeg|svg|mp4)$/,
