@@ -5,13 +5,16 @@ import { register } from 'register-service-worker'
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}sw.js`, {
     ready () {
-      console.log(
-        'App is being served from cache by a service worker.\n' +
-        'For more details, visit https://goo.gl/AFskqB'
-      );
+      console.log('Service worker ready');
     },
-    registered () {
+    registered (reg) {
       console.log('Service worker has been registered.')
+      Notification.requestPermission(function(status) {
+        console.log('Notification permission status:', status);
+        if (status == 'granted') {
+            reg.showNotification('Hello world!');
+        }
+      });
     },
     cached () {
       console.log('Content has been cached for offline use.')

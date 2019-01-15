@@ -20,20 +20,10 @@ window.addEventListener('beforeinstallprompt', (e) => {
     deferredPrompt = e;
 });
 
-Notification.requestPermission(function(status) {
-    console.log('Notification permission status:', status);
-    if (status == 'granted') {
-        navigator.serviceWorker.getRegistration().then(function(reg) {
-            reg.showNotification('Hello world!');
-        });
-    }
-});
-
 
 new Vue({
   router,
   render: h => h(App)
 }).$mount('#app');
-
 
 
