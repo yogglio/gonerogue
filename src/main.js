@@ -22,6 +22,11 @@ window.addEventListener('beforeinstallprompt', (e) => {
 
 Notification.requestPermission(function(status) {
     console.log('Notification permission status:', status);
+    if (status == 'granted') {
+        navigator.serviceWorker.getRegistration().then(function(reg) {
+            reg.showNotification('Hello world!');
+        });
+    }
 });
 
 
