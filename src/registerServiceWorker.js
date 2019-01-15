@@ -12,7 +12,16 @@ if (process.env.NODE_ENV === 'production') {
       Notification.requestPermission(function(status) {
         console.log('Notification permission status:', status);
         if (status == 'granted') {
-            reg.showNotification('Hello world!');
+          var options = {
+            body: 'Here is a notification body!',
+            icon: 'images/icons/android-chrome-512x512.png',
+            vibrate: [100, 50, 100],
+            data: {
+              dateOfArrival: Date.now(),
+              primaryKey: 1
+            }
+          };
+          reg.showNotification('Hello world!', options);
         }
       });
     },
