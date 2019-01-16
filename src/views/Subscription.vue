@@ -14,7 +14,7 @@
         methods: {
             subscribe(){
                 navigator.serviceWorker.ready
-                    .then(async function(registration) {
+                    .then(async (registration) => {
                         const response = await fetch('/vapidPublicKey');
                         const vapidPublicKey = await response.text();
                         const convertedVapidKey = this.urlBase64ToUint8Array(vapidPublicKey);
@@ -40,7 +40,7 @@
                 navigator.serviceWorker.ready
                     .then(function(registration) {
                         return registration.pushManager.getSubscription();
-                    }).then(function(subscription) {
+                    }).then((subscription) => {
                     return subscription.unsubscribe()
                         .then(() => {
                             console.log('Unsubscribed', subscription.endpoint);
