@@ -71,9 +71,7 @@ workbox.routing.registerRoute(
 );
 
 self.addEventListener('push', function(event) {
-    Notification.requestPermission(function(status) {
-        console.log('Notification permission status:', status);
-        if (status == 'granted') {
+    console.log('push');
             var title = 'Yay a message.';
             var body = 'We have received a push message.';
             var icon = 'img/logo.svg';
@@ -85,7 +83,5 @@ self.addEventListener('push', function(event) {
                     tag: tag
                 })
             );
-        }
-    });
 });
 
