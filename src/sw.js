@@ -71,17 +71,16 @@ workbox.routing.registerRoute(
 );
 
 self.addEventListener('push', function(event) {
-    console.log('push');
-            var title = 'Yay a message.';
-            var body = 'We have received a push message.';
-            var icon = 'img/logo.svg';
-            var tag = 'simple-push-example-tag';
-            event.waitUntil(
-                self.registration.showNotification(title, {
-                    body: body,
-                    icon: icon,
-                    tag: tag
-                })
-            );
+    console.log('push: '+ event.data.text());
+    var options = {
+        body: 'Here is a notification body!',
+        icon: 'logo.svg',
+        vibrate: [100, 50, 100],
+        data: {
+            dateOfArrival: Date.now(),
+            primaryKey: 1
+        }
+    };
+    self.registration.showNotification('Hello world!', options);
 });
 
