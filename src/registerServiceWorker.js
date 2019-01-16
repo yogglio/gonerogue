@@ -1,8 +1,6 @@
 
 import { register } from 'register-service-worker'
 
-const publicVapidKey = "BFMeLiaQT76-yscl8uao2RjeTqplSGcRrN6YiBN3ltVeeNvLVSsa6lu3aV2u_vFwk8eLh0CdqabJxgP5sjODvK0";
-
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}sw.js`, {
     ready () {
@@ -10,10 +8,6 @@ if (process.env.NODE_ENV === 'production') {
     },
     registered (registration) {
       console.log('Service worker has been registered.')
-      Notification.requestPermission(function(status) {
-        console.log('Notification permission status:', status);
-        subscribe(registration).catch(err => console.error(err));
-      });
     },
     cached () {
       console.log('Content has been cached for offline use.')
@@ -64,19 +58,4 @@ async function subscribe(registration) {
 
 }
 
-
-function urlBase64ToUint8Array(base64String) {
-  const padding = "=".repeat((4 - base64String.length % 4) % 4);
-  const base64 = (base64String + padding)
-      .replace(/\-/g, "+")
-      .replace(/_/g, "/");
-
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
-}
 

@@ -73,9 +73,26 @@ workbox.routing.registerRoute(
 self.addEventListener("push", e => {
     const data = e.data.json();
     console.log("Push Recieved...");
-    self.registration.showNotification(data.title, {
-        body: "New Content Available",
-        icon: "https://image.ibb.co/frYOFd/tmlogo.png"
-    });
+    event.waitUntil(self.registration.showNotification(data.title, {
+        body: 'Push Notification Subscription Management'
+    }));
 });
 
+self.addEventListener('pushsubscriptionchange', event => {
+    console.log('Subscription expired');
+    event.waitUntil(
+        self.registration.pushManager.subscribe({ userVisibleOnly: true })
+            .then((subscription) => {
+                console.log('Subscribed after expiration', subscription.endpoint);
+                return fetch('/register', {
+                    method: 'post',
+                    headers: {
+                        'Content-type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        endpoint: subscription.endpoint
+                    })
+                });
+            })
+    );
+});
