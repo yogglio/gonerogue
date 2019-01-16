@@ -10,6 +10,7 @@
     "start": "node server.js"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "compression": "^1.7.3",
     "contentful": "^7.0.5",
     "contentful-management": "^5.4.0",
@@ -19,7 +20,8 @@
     "save": "2.3.1",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
-    "vue-video-player": "^5.0.2"
+    "vue-video-player": "^5.0.2",
+    "web-push": "^3.3.3"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.1.1",

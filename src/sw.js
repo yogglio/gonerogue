@@ -70,17 +70,12 @@ workbox.routing.registerRoute(
     })
 );
 
-self.addEventListener('push', function(event) {
-    console.log('push: '+ event.data.text());
-    var options = {
-        body: 'Here is a notification body!',
-        icon: 'logo.svg',
-        vibrate: [100, 50, 100],
-        data: {
-            dateOfArrival: Date.now(),
-            primaryKey: 1
-        }
-    };
-    self.registration.showNotification('Hello world!', options);
+self.addEventListener("push", e => {
+    const data = e.data.json();
+    console.log("Push Recieved...");
+    self.registration.showNotification(data.title, {
+        body: "New Content Available",
+        icon: "http://image.ibb.co/frYOFd/tmlogo.png"
+    });
 });
 

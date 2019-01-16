@@ -1,5 +1,7 @@
 /* eslint-disable no-console */
 
+const publicVapidKey = "BFMeLiaQT76-yscl8uao2RjeTqplSGcRrN6YiBN3ltVeeNvLVSsa6lu3aV2u_vFwk8eLh0CdqabJxgP5sjODvK0";
+
 import { register } from 'register-service-worker'
 
 if (process.env.NODE_ENV === 'production') {
@@ -7,22 +9,11 @@ if (process.env.NODE_ENV === 'production') {
     ready () {
       console.log('Service worker ready');
     },
-    registered (reg) {
+    registered (registration) {
       console.log('Service worker has been registered.')
       Notification.requestPermission(function(status) {
         console.log('Notification permission status:', status);
-        if (status == 'granted') {
-          var options = {
-            body: 'Here is a notification body!',
-            icon: 'images/icons/android-chrome-512x512.png',
-            vibrate: [100, 50, 100],
-            data: {
-              dateOfArrival: Date.now(),
-              primaryKey: 1
-            }
-          };
-          reg.showNotification('Hello world!', options);
-        }
+        send(registration).catch(err => console.error(err));
       });
     },
     cached () {
@@ -42,3 +33,40 @@ if (process.env.NODE_ENV === 'production') {
     }
   })
 }
+
+async function send(registration) {
+  // Register Push
+  console.log("Registering Push...");
+  const subscription = await registration.pushManager.subscribe({
+    userVisibleOnly: true,
+    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+  });
+  console.log("Push Registered...");
+
+  // Send Push Notification
+  console.log("Sending Push...");
+  await fetch("/subscribe", {
+    method: "POST",
+    body: JSON.stringify(subscription),
+    headers: {
+      "content-type": "application/json"
+    }
+  });
+  console.log("Push Sent...");
+}
+
+function urlBase64ToUint8Array(base64String) {
+  const padding = "=".repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding)
+      .replace(/\-/g, "+")
+      .replace(/_/g, "/");
+
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
