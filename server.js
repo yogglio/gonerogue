@@ -18,7 +18,7 @@ const privateVapidKey = "vQZ65ua1QLcuWfyLwN_SIQw5eL7yxUO6OjsLxNkdbKg";
 
 //Collect active endpoints
 const subscriptions = {};
-
+// Interval for sending push
 const pushInterval = 10;
 
 webpush.setVapidDetails(
@@ -94,7 +94,7 @@ http.listen(process.env.PORT || 8090, function(){
 function sendNotification(subscription) {
     // Create payload
     const payload = JSON.stringify({ title: "Push Test" });
-    webPush.sendNotification(subscription, payload)
+    webpush.sendNotification(subscription, payload)
         .then(function() {
             console.log('Push Application Server - Notification sent to ' + subscription.endpoint);
         }).catch(function() {
