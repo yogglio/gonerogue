@@ -23,7 +23,7 @@
                             userVisibleOnly: true,
                             applicationServerKey: convertedVapidKey
                             });
-                        }).then(function(subscription) {
+                        }).then((subscription) => {
                         console.log('Subscribed', subscription.endpoint);
                         return fetch('/register', {
                             method: 'post',
@@ -42,7 +42,7 @@
                         return registration.pushManager.getSubscription();
                     }).then(function(subscription) {
                     return subscription.unsubscribe()
-                        .then(function() {
+                        .then(() => {
                             console.log('Unsubscribed', subscription.endpoint);
                             return fetch('/unregister', {
                                 method: 'post',
@@ -76,7 +76,7 @@
                 .then(function(registration) {
                     console.log('service worker registered');
                     return registration.pushManager.getSubscription();
-                }).then(function(subscription) {
+                }).then((subscription) =>{
                 if (subscription) {
                     console.log('Already subscribed', subscription.endpoint);
                     this.subscribed = true;
