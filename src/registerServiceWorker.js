@@ -36,7 +36,8 @@ if (process.env.NODE_ENV === 'production') {
 
 async function subscribe(registration) {
 
-    await registration.ready;
+  if ('serviceWorker' in navigator) {
+    await navigator.serviceWorker.ready;
     console.log('A service worker is active:', registration.active);
   // Register Push
     console.log("Registering Push...");
@@ -56,6 +57,10 @@ async function subscribe(registration) {
       }
     });
     console.log("Push Sent...");
+  }
+  else {
+    console.log('Service workers are not supported.');
+  }
 
 }
 
