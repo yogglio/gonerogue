@@ -70,10 +70,17 @@ workbox.routing.registerRoute(
     })
 );
 
-self.addEventListener('push', function(e) {
-    
-    e.waitUntil(
-        self.registration.showNotification('Hello world!', 'stuff')
+self.addEventListener('push', function(event) {
+    var title = 'Yay a message.';
+    var body = 'We have received a push message.';
+    var icon = 'img/logo.svg';
+    var tag = 'simple-push-example-tag';
+    event.waitUntil(
+        self.registration.showNotification(title, {
+            body: body,
+            icon: icon,
+            tag: tag
+        })
     );
 });
 
