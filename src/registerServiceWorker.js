@@ -1,19 +1,18 @@
-/* eslint-disable no-console */
-
-const publicVapidKey = "BFMeLiaQT76-yscl8uao2RjeTqplSGcRrN6YiBN3ltVeeNvLVSsa6lu3aV2u_vFwk8eLh0CdqabJxgP5sjODvK0";
 
 import { register } from 'register-service-worker'
+
+const publicVapidKey = "BFMeLiaQT76-yscl8uao2RjeTqplSGcRrN6YiBN3ltVeeNvLVSsa6lu3aV2u_vFwk8eLh0CdqabJxgP5sjODvK0";
 
 if (process.env.NODE_ENV === 'production') {
   register(`${process.env.BASE_URL}sw.js`, {
     ready () {
       console.log('Service worker ready');
     },
-    registered (registration) {
+    registered () {
       console.log('Service worker has been registered.')
       Notification.requestPermission(function(status) {
         console.log('Notification permission status:', status);
-        send(registration).catch(err => console.error(err));
+        subscribe().catch(err => console.error(err));
       });
     },
     cached () {
@@ -34,26 +33,37 @@ if (process.env.NODE_ENV === 'production') {
   })
 }
 
-async function send(registration) {
-  // Register Push
-  console.log("Registering Push...");
-  const subscription = await registration.pushManager.subscribe({
-    userVisibleOnly: true,
-    applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-  });
-  console.log("Push Registered...");
 
-  // Send Push Notification
-  console.log("Sending Push...");
-  await fetch("/subscribe", {
-    method: "POST",
-    body: JSON.stringify(subscription),
-    headers: {
-      "content-type": "application/json"
-    }
-  });
-  console.log("Push Sent...");
+async function subscribe(registration) {
+
+  if ('serviceWorker' in navigator) {
+    await navigator.serviceWorker.ready;
+    console.log('A service worker is active:', registration.active);
+  // Register Push
+    console.log("Registering Push...");
+    const subscription = await registration.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
+    });
+    console.log("Push Registered...");
+
+    // Send Push Notification
+    console.log("Sending Push...");
+    await fetch("/subscribe", {
+      method: "POST",
+      body: JSON.stringify(subscription),
+      headers: {
+        "content-type": "application/json"
+      }
+    });
+    console.log("Push Sent...");
+  }
+  else {
+    console.log('Service workers are not supported.');
+  }
+
 }
+
 
 function urlBase64ToUint8Array(base64String) {
   const padding = "=".repeat((4 - base64String.length % 4) % 4);

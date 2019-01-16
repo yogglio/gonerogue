@@ -75,7 +75,7 @@ self.addEventListener("push", e => {
     console.log("Push Recieved...");
     self.registration.showNotification(data.title, {
         body: "New Content Available",
-        icon: "http://image.ibb.co/frYOFd/tmlogo.png"
+        icon: "https://image.ibb.co/frYOFd/tmlogo.png"
     });
 });
 
