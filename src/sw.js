@@ -71,16 +71,21 @@ workbox.routing.registerRoute(
 );
 
 self.addEventListener('push', function(event) {
-    var title = 'Yay a message.';
-    var body = 'We have received a push message.';
-    var icon = 'img/logo.svg';
-    var tag = 'simple-push-example-tag';
-    event.waitUntil(
-        self.registration.showNotification(title, {
-            body: body,
-            icon: icon,
-            tag: tag
-        })
-    );
+    Notification.requestPermission(function(status) {
+        console.log('Notification permission status:', status);
+        if (status == 'granted') {
+            var title = 'Yay a message.';
+            var body = 'We have received a push message.';
+            var icon = 'img/logo.svg';
+            var tag = 'simple-push-example-tag';
+            event.waitUntil(
+                self.registration.showNotification(title, {
+                    body: body,
+                    icon: icon,
+                    tag: tag
+                })
+            );
+        }
+    });
 });
 
