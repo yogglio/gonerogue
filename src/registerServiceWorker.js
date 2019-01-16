@@ -8,11 +8,11 @@ if (process.env.NODE_ENV === 'production') {
     ready () {
       console.log('Service worker ready');
     },
-    registered () {
+    registered (registration) {
       console.log('Service worker has been registered.')
       Notification.requestPermission(function(status) {
         console.log('Notification permission status:', status);
-        subscribe().catch(err => console.error(err));
+        subscribe(registration).catch(err => console.error(err));
       });
     },
     cached () {
