@@ -28,34 +28,4 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 
-async function subscribe(registration) {
-
-  if ('serviceWorker' in navigator) {
-    await navigator.serviceWorker.ready;
-    console.log('A service worker is active:', registration.active);
-  // Register Push
-    console.log("Registering Push...");
-    const subscription = await registration.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlBase64ToUint8Array(publicVapidKey)
-    });
-    console.log("Push Registered...");
-
-    // Send Push Notification
-    console.log("Sending Push...");
-    await fetch("/subscribe", {
-      method: "POST",
-      body: JSON.stringify(subscription),
-      headers: {
-        "content-type": "application/json"
-      }
-    });
-    console.log("Push Sent...");
-  }
-  else {
-    console.log('Service workers are not supported.');
-  }
-
-}
-
 

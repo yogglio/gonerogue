@@ -1,5 +1,5 @@
 workbox.setConfig({
-    debug: true,
+    debug: false,
 });
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest);

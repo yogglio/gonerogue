@@ -313,7 +313,6 @@
             },
             detectShake(accelerometer){
                 const shakeThreshold = 3 * 9.8;
-                const stillThreshold = 1;
                 let magnitude = Math.hypot(accelerometer.x, accelerometer.y, accelerometer.z);
                 if (magnitude > shakeThreshold) {
                     console.log("shaking " + magnitude + " > " + shakeThreshold);
