@@ -74,8 +74,7 @@
         height: auto;
 
         img{
-        width: 90%;
-        height: 90%;
+            height: 90%;
         }
     }
     .rating {

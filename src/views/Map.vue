@@ -205,7 +205,9 @@
 
                     marker.addListener('click', () => {
                         this.showInfowindow = true;
-                        this.accelerometer.start();
+                        if(this.accelerometer) {
+                            this.accelerometer.start();
+                        }
                         console.log("show")
                     });
 
@@ -291,7 +293,9 @@
             },
             closeInfoWindow(){
                 this.showInfowindow = false;
-                this.accelerometer.stop();
+                if(this.accelerometer) {
+                    this.accelerometer.stop();
+                }
             },
             openOverlay(msg, btn){
                 this.text.msg = msg;
@@ -299,17 +303,17 @@
                 this.showOverlay = true;
             },
             initAccelerometer(){
-                let accelerometer = new LinearAccelerationSensor({frequency: 60});
-                accelerometer.addEventListener('reading', () => {
-                    this.detectShake(accelerometer);
-                    /*console.log("Acceleration along the X-axis " + accelerometer.x);
-                    console.log("Acceleration along the Y-axis " + accelerometer.y);
-                    console.log("Acceleration along the Z-axis " + accelerometer.z);*/
-                });
-                accelerometer.addEventListener('error', e => {
-                    console.log("Cannot fetch data from sensor due to an error." + e)
-                });
-                return accelerometer;
+                    let accelerometer = new LinearAccelerationSensor({frequency: 60});
+                    accelerometer.addEventListener('reading', () => {
+                        this.detectShake(accelerometer);
+                        /*console.log("Acceleration along the X-axis " + accelerometer.x);
+                        console.log("Acceleration along the Y-axis " + accelerometer.y);
+                        console.log("Acceleration along the Z-axis " + accelerometer.z);*/
+                    });
+                    accelerometer.addEventListener('error', e => {
+                        console.log("Cannot fetch data from sensor due to an error." + e)
+                    });
+                    return accelerometer;
             },
             detectShake(accelerometer){
                 const shakeThreshold = 3 * 9.8;
@@ -322,7 +326,9 @@
         },
         mounted() {
             // init accelerometer
-            this.accelerometer = this.initAccelerometer();
+            if (window.LinearAccelerationSensor) {
+                this.accelerometer = this.initAccelerometer();
+            }
             this.initMap();
         },
         destroyed() {
