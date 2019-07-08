@@ -4,6 +4,19 @@ workbox.setConfig({
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
+// workbox.routing.registerNavigationRoute(
+//   // Assuming '/single-page-app.html' has been precached,
+//   // look up its corresponding cache key.
+//   workbox.precaching.getCacheKeyForURL('/index.html'), {
+//   blacklist: [
+//     new RegExp('/map'),
+//   ]
+// });
+
+workbox.routing.setCatchHandler(({url, event, params}) => {
+  console.log("error")
+});
+
 workbox.routing.registerRoute(
     /\.(?:png|gif|jpg|jpeg|svg|mp4)$/,
     workbox.strategies.cacheFirst({
