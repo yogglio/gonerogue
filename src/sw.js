@@ -17,12 +17,12 @@ workbox.routing.registerRoute(
     })
 );
 
-workbox.routing.registerRoute(
-    /\.(?:js|css)$/,
-    workbox.strategies.staleWhileRevalidate({
-        cacheName: 'static-resources',
-    })
-);
+// workbox.routing.registerRoute(
+//     /\.(?:js|css)$/,
+//     workbox.strategies.staleWhileRevalidate({
+//         cacheName: 'static-resources',
+//     })
+// );
 
 workbox.routing.registerRoute(
     new RegExp('https://cdn.contentful.com/*'),
@@ -56,19 +56,19 @@ workbox.routing.registerRoute(
     })
 );
 
-workbox.routing.registerRoute(
-    /.*(?:googleapis)\.com/,
-    workbox.strategies.staleWhileRevalidate({
-        cacheName: 'googleapis',
-    })
-);
+// workbox.routing.registerRoute(
+//     /.*(?:googleapis)\.com/,
+//     workbox.strategies.staleWhileRevalidate({
+//         cacheName: 'googleapis',
+//     })
+// );
 
-workbox.routing.registerRoute(
-    /.*(?:gstatic)\.com/,
-    workbox.strategies.staleWhileRevalidate({
-        cacheName: 'gstatic',
-    })
-);
+// workbox.routing.registerRoute(
+//     /.*(?:gstatic)\.com/,
+//     workbox.strategies.staleWhileRevalidate({
+//         cacheName: 'gstatic',
+//     })
+// );
 
 // listen for push events
 self.addEventListener("push", event => {
