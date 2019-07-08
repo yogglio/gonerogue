@@ -4,11 +4,7 @@ workbox.setConfig({
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-workbox.routing.registerNavigationRoute(
-  // Assuming '/single-page-app.html' has been precached,
-  // look up its corresponding cache key.
-  workbox.precaching.getCacheKeyForURL('/index.html')
-);
+workbox.routing.registerNavigationRoute('/index.html')
 
 workbox.routing.setCatchHandler(({url, event, params}) => {
   console.log("error")
