@@ -4,12 +4,6 @@ workbox.setConfig({
 
 workbox.precaching.precacheAndRoute(self.__precacheManifest || []);
 
-workbox.routing.registerNavigationRoute('/index.html')
-
-workbox.routing.setCatchHandler(({url, event, params}) => {
-  console.log("error")
-});
-
 workbox.routing.registerRoute(
     /\.(?:png|gif|jpg|jpeg|svg|mp4)$/,
     workbox.strategies.cacheFirst({
